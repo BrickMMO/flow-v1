@@ -15,6 +15,7 @@ if(isset($_POST['email']))
         FROM students
         WHERE email = "'.mysqli_real_escape_string($connect, $_POST['email']).'"
         AND password = "'.md5($_POST['password']).'"
+        AND status = "active"
         LIMIT 1';
     $result = mysqli_query($connect, $query);
 
@@ -25,7 +26,6 @@ if(isset($_POST['email']))
         $_SESSION['student']['id'] = $student['id'];
 
         set_message('You have been logged in!', 'success');
-
         redirect('dashboard.php');
     }
     
@@ -33,17 +33,17 @@ if(isset($_POST['email']))
         FROM admins
         WHERE email = "'.mysqli_real_escape_string($connect, $_POST['email']).'"
         AND password = "'.md5($_POST['password']).'"
+        AND status = "active"
         LIMIT 1';
     $result = mysqli_query($connect, $query);
 
     if(mysqli_num_rows($result))
     {
-        $student = mysqli_fetch_assoc($result);
+        $admin = mysqli_fetch_assoc($result);
 
-        $_SESSION['admin']['id'] = $student['id'];
+        $_SESSION['admin']['id'] = $admin['id'];
 
         set_message('You have been logged in!', 'success');
-
         redirect('admin-dashboard.php');
     }
 
@@ -86,7 +86,7 @@ include('includes/header.php');
 
 <hr>
 
-<a href="forget.php">Forgot Password</a> | <a href="register.php">Register</a>
+<a href="forgot.php">Forgot Password</a> | <a href="register.php">Register</a>
 
 <?php
 

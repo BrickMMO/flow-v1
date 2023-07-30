@@ -15,7 +15,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Flow Logout</h1>
+<h1>Logout</h1>
 
 <?php check_message(); ?>
 
