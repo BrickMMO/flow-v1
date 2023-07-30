@@ -4,12 +4,10 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
-define('PAGE_TITLE', 'Logout');
-
-unset($_SESSION['stadmindent']);
-
 if(isset($_SESSION['student'])) unset($_SESSION['student']);
 if(isset($_SESSION['admin'])) unset($_SESSION['admin']);
+
+define('PAGE_TITLE', 'Logout');
 
 include('includes/header.php');
 
@@ -23,7 +21,11 @@ include('includes/header.php');
 
 <hr>
 
-<a href="/">Login</a>
+<div class="left">
+
+    <a href="/">Login</a>
+
+</div>
 
 <?php
 

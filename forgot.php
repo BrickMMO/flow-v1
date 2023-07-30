@@ -4,10 +4,10 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
-define('PAGE_TITLE', 'Forgot Password');
-
 if(isset($_SESSION['student'])) redirect('dashboard.php');
 if(isset($_SESSION['admin'])) redirect('admin-dashboard.php');
+
+define('PAGE_TITLE', 'Forgot Password');
 
 if(isset($_POST['email']))
 {
@@ -102,7 +102,11 @@ include('includes/header.php');
 
 <hr>
 
-<a href="/">Login</a> | <a href="register.php">Register</a>
+<div class="left">
+
+    <a href="/">Login</a> | <a href="register.php">Register</a>
+
+</div>
 
 <?php
 

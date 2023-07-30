@@ -12,6 +12,27 @@
 </head>
 <body>
 
-    <div id="container">
-        
+    <div id="container">        
     
+
+        <?php if(isset($_SESSION['admin'])): ?>
+
+            <?php
+
+            $query = 'SELECT classes.id, classes.name
+                FROM admins
+                INNER JOIN classes 
+                ON classes.id = admins.class_id
+                WHERE admins.id = "'.$_SESSION['admin']['id'].'"
+                LIMIT 1';
+            $result = mysqli_query($connect, $query);
+
+            $class = mysqli_fetch_assoc($result);
+
+            ?>
+
+            Current Class: <a href="admin-class-list.php"><?=$class['name']?></a>
+
+            <hr>
+
+        <?php endif; ?>

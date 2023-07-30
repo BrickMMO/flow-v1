@@ -4,8 +4,7 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
-if(isset($_SESSION['student'])) redirect('dashboard.php');
-if(isset($_SESSION['admin'])) redirect('admin-dashboard.php');
+secure('admin');
 
 define('PAGE_TITLE', 'Login');
 
@@ -54,7 +53,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Flow Login</h1>
+<h1>Add Class</h1>
 
 <?php check_message(); ?>
 

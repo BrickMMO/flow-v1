@@ -16,8 +16,6 @@ include('includes/header.php');
 
 <?php check_message(); ?>
 
-<hr>
-
 <?php
 
 include('includes/footer.php');

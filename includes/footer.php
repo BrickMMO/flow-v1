@@ -1,14 +1,18 @@
    
       <?php if(isset($_SESSION['student'])): ?>
 
-         <div class="center">
+         <hr>
+
+         <div class="left">
             <a href="dashboard.php">Dashboard</a> | 
             <a href="logout.php">Logout</a>
          </div>
 
       <?php elseif(isset($_SESSION['admin'])): ?>
 
-         <div class="center">
+         <hr>
+
+         <div class="left">
             <a href="admin-dashboard.php">Dashboard</a> | 
             <a href="logout.php">Logout</a>
          </div>
