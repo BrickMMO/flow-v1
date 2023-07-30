@@ -18,13 +18,37 @@ if(isset($_GET['select']))
     redirect('admin-class-list.php');
 }
 
+elseif(isset($_GET['delete']))
+{
+    $query = 'DELETE FROM classes
+        WHERE id = "'.$_GET['delete'].'"
+        LIMIT 1';
+    mysqli_query($connect, $query);
+
+    $query = 'UPDATE admins SET
+        class_id = (
+            SELECT id
+            FROM classes
+            ORDER BY year DESC
+            LIMIT 1
+        ) 
+        WHERE class_id NOT IN (
+            SELECT id 
+            FROM classes
+        )';
+    mysqli_query($connect, $query);
+
+    set_message('Class has been deleted!');
+    redirect('admin-class-list.php');
+}
+
 define('PAGE_TITLE', 'DasChange Classhboard');
 
 include('includes/header.php');
 
 ?>
 
-<h1>Select Class</h1>
+<h1>Class List</h1>
 
 <?php check_message(); ?>
 
@@ -58,8 +82,8 @@ $result = mysqli_query($connect, $query);
             <td><?=$class['name']?></td>
             <td><?=$class['students']?></td>
             <td><a href="admin-class-list.php?select=<?=$class['id']?>">Select</a></td>
-            <td><a href="admin-class-edit.php?select=<?=$class['id']?>">Edit</a></td>
-            <td><a href="admin-class-delete.php?select=<?=$class['id']?>">Delete</a></td>
+            <td><a href="admin-class-edit.php?id=<?=$class['id']?>">Edit</a></td>
+            <td><a href="admin-class-list.php?delete=<?=$class['id']?>">Delete</a></td>
         </tr>
 
     <?php endwhile; ?>

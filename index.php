@@ -68,17 +68,15 @@ include('includes/header.php');
 
     <label>
         Email:
+        <br>
         <input type="email" name="email">
     </label>
 
-    <br>
-
     <label>
         Password:
+        <br>
         <input type="password" name="password">
     </label>
-
-    <br>
 
     <input type="submit" value="Login">
 

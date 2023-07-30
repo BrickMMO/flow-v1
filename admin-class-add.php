@@ -6,46 +6,33 @@ include('includes/functions.php');
 
 secure('admin');
 
-define('PAGE_TITLE', 'Login');
+define('PAGE_TITLE', 'Add Class');
 
-if(isset($_POST['email']))
+if(isset($_POST['name']))
 {
-    $query = 'SELECT *
-        FROM students
-        WHERE email = "'.mysqli_real_escape_string($connect, $_POST['email']).'"
-        AND password = "'.md5($_POST['password']).'"
-        AND status = "active"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
-
-    if(mysqli_num_rows($result))
-    {
-        $student = mysqli_fetch_assoc($result);
-
-        $_SESSION['student']['id'] = $student['id'];
-
-        set_message('You have been logged in!', 'success');
-        redirect('dashboard.php');
-    }
     
-    $query = 'SELECT *
-        FROM admins
-        WHERE email = "'.mysqli_real_escape_string($connect, $_POST['email']).'"
-        AND password = "'.md5($_POST['password']).'"
-        AND status = "active"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
-
-    if(mysqli_num_rows($result))
+    if($_POST['name'] && $_POST['year'] && $_POST['semester'])
     {
-        $admin = mysqli_fetch_assoc($result);
+        
+        $query = 'INSERT INTO classes (
+                name, 
+                year,
+                semester
+            ) VALUES (
+                "'.mysqli_real_escape_string($connect, $_POST['name']).'",
+                "'.mysqli_real_escape_string($connect, $_POST['year']).'",
+                "'.mysqli_real_escape_string($connect, $_POST['semester']).'"
+            )';
+        mysqli_query($connect, $query);
 
-        $_SESSION['admin']['id'] = $admin['id'];
-
-        set_message('You have been logged in!', 'success');
-        redirect('admin-dashboard.php');
+        set_message('Class has been added!', 'success');
+    }
+    else
+    {
+        set_message('There was an error adding this class!', 'error');
     }
 
+    redirect('admin-class-list.php');
 
 }
 
@@ -57,37 +44,35 @@ include('includes/header.php');
 
 <?php check_message(); ?>
 
-<p>Welcome to the BrickMMO project management application.</p>
-
-<p>Login using your Humber email address:</p>
-
-<hr>
-
 <form method="post">
 
     <label>
-        Email:
-        <input type="email" name="email">
+        Name:
+        <br>
+        <input type="text" name="name">
     </label>
-
-    <br>
 
     <label>
-        Password:
-        <input type="password" name="password">
+        Year:
+        <br>
+        <input type="year" name="year">
     </label>
 
-    <br>
+    <label>
+        Semester:
+        <br>
+        <?php select('semester', SEMESTER); ?>
+    </label>
 
-    <input type="submit" value="Login">
+    <input type="submit" value="Add Class">
 
 </form>
 
 <hr>
 
-<div class="left">
+<div class="right">
 
-    <a href="forgot.php">Forgot Password</a> | <a href="register.php">Register</a>
+    <a href="admin-class-list.php">Cancel</a>
 
 </div>
 

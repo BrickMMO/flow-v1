@@ -91,10 +91,9 @@ include('includes/header.php');
 
     <label>
         Email:
+        <br>
         <input type="email" name="email">
     </label>
-
-    <br>
 
     <input type="submit" value="Send Password">
 

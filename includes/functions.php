@@ -74,3 +74,20 @@ function sendgrid_mail($to_email, $to_name, $subject, $message)
 
 }
 
+function select($name, $options, $selected = false)
+{
+ 
+    ?>
+
+    <select name="<?=$name?>">
+
+        <?php foreach($options as $value => $option): ?>
+            <option value="<?=$value?>"><?=$option?></option>
+        <?php endforeach; ?>
+
+    </select>
+
+    <?php
+
+}
+
