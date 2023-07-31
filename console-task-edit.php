@@ -31,6 +31,7 @@ if(isset($_POST['name']))
             set_message('There was an error editing this task!', 'error');
 
         }
+        
     }
     else
     {

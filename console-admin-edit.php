@@ -6,44 +6,58 @@ include('includes/functions.php');
 
 secure('admin');
 
-define('PAGE_TITLE', 'Edit Task');
+define('PAGE_TITLE', 'Edit Admin');
 
-if(isset($_POST['name']))
+if(isset($_POST['first']))
 {
     
-    if($_POST['name'] && $_POST['description'] && $_POST['url'])
+    if($_POST['first'] && $_POST['last'] && $_POST['email'])
     {
 
         try {
         
-            $query = 'UPDATE tasks SET 
-                name = "'.mysqli_real_escape_string($connect, $_POST['name']).'",
-                description = "'.mysqli_real_escape_string($connect, $_POST['description']).'",
-                url = "'.mysqli_real_escape_string($connect, $_POST['url']).'"
+            $query = 'UPDATE admins SET 
+                first = "'.mysqli_real_escape_string($connect, $_POST['first']).'",
+                last = "'.mysqli_real_escape_string($connect, $_POST['last']).'",
+                email = "'.mysqli_real_escape_string($connect, $_POST['email']).'",
+                github = "'.mysqli_real_escape_string($connect, $_POST['github']).'"
                 WHERE id = "'.$_GET['id'].'"
                 LIMIT 1';
             mysqli_query($connect, $query);
 
-            set_message('Task has been edited!', 'success');
+            if(isset($_POST['password']))
+            {
+                $query = 'UPDATE admins SET 
+                    password = "'.md5($_POST['password']).'"
+                    WHERE id = "'.$_GET['id'].'"
+                    LIMIT 1';
+                mysqli_query($connect, $query);
+            }
+
+            set_message('Admin has been edited!', 'success');
 
         } catch (Exception $e) {
 
-            set_message('There was an error editing this task!', 'error');
+            die('1');
+
+            set_message('There was an error editing this admin!', 'error');
 
         }
+        
     }
     else
     {
-        set_message('There was an error editing this task!', 'error');
+        die('2');
+        set_message('There was an error editing this admin!', 'error');
     }
 
-    redirect('console-task-list.php');
+    redirect('console-admin-list.php');
 
 }
 elseif(isset($_GET['id']))
 {
     $query = 'SELECT *
-        FROM tasks
+        FROM admins
         WHERE id = "'.$_GET['id'].'"
         LIMIT 1';
     $result = mysqli_query($connect, $query);
@@ -54,13 +68,13 @@ elseif(isset($_GET['id']))
     }
     else
     {
-        set_message('There was an error loading this task!', 'error');
+        set_message('There was an error loading this admin!', 'error');
         redirect('console-task-list.php');    
     }
 }
 else
 {
-    set_message('There was an error loading this task!', 'error');
+    set_message('There was an error loading this admin!', 'error');
     redirect('console-task-list.php');
 }
 
@@ -68,7 +82,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Edit Class</h1>
+<h1>Edit Admin</h1>
 
 <?php check_message(); ?>
 
@@ -77,21 +91,33 @@ include('includes/header.php');
 <form method="post">
 
     <label>
-        Name:
+        First Name:
         <br>
-        <input type="text" name="name" value="<?=$record['name']?>">
+        <input type="text" name="first" value="<?=$record['first']?>">
     </label>
 
     <label>
-        Description:
+        Last Name:
         <br>
-        <textarea name="description"><?=$record['description']?></textarea>
+        <input type="text" name="last" value="<?=$record['last']?>">
     </label>
 
     <label>
-        URL:
+        Email:
         <br>
-        <input type="url" name="url" value="<?=$record['url']?>">
+        <input type="email" name="email" value="<?=$record['email']?>">
+    </label>
+
+    <label>
+        GitHub Username:
+        <br>
+        <input type="text" name="github" value="<?=$record['github']?>">
+    </label>
+
+    <label>
+        Password:
+        <br>
+        <input type="password" name="password">
     </label>
 
     <input type="submit" value="Save">
@@ -102,7 +128,7 @@ include('includes/header.php');
 
 <div class="right">
 
-    <a href="console-task-list.php">&#10006; Cancel</a>
+    <a href="console-admin-list.php">&#10006; Cancel</a>
 
 </div>
 
