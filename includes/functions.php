@@ -14,7 +14,7 @@ function check_message()
         ?>  
 
         <div class="<?=$_SESSION['message']['type']?>">
-            &#10140; <?=$_SESSION['message']['text']?>
+            &#10132; <?=$_SESSION['message']['text']?>
         </div>
 
         <?php

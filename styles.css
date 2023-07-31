@@ -1,7 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-body, tr, td, th, input, select {
+body, tr, td, th, input, select, textarea {
     font-family: 'Roboto', sans-serif;
 }
 
@@ -64,17 +64,22 @@ label {
     display: block;
     margin: 10px 0;
 }
-input, select {
+input, select, textarea {
     margin-top: 5px;
     width: 100%;
     padding: 2px 3px;
     box-sizing: border-box;
 }
 
+textarea {
+    height: 120px;
+}
+
+
 a:link,
 a:visited,
 a:active,
 a:hover {
     text-decoration: none;
-    color: #eb062c;
+    color: #ff8e00;
 }

@@ -11,21 +11,32 @@ define('PAGE_TITLE', 'Add Class');
 if(isset($_POST['name']))
 {
     
-    if($_POST['name'] && $_POST['year'] && $_POST['semester'])
+    if($_POST['name'] && $_POST['year'] && $_POST['year'] && $_POST['semester'])
     {
-        
-        $query = 'INSERT INTO classes (
-                name, 
-                year,
-                semester
-            ) VALUES (
-                "'.mysqli_real_escape_string($connect, $_POST['name']).'",
-                "'.mysqli_real_escape_string($connect, $_POST['year']).'",
-                "'.mysqli_real_escape_string($connect, $_POST['semester']).'"
-            )';
-        mysqli_query($connect, $query);
 
-        set_message('Class has been added!', 'success');
+        try {
+
+            $query = 'INSERT INTO classes (
+                    name, 
+                    code,
+                    year,
+                    semester
+                ) VALUES (
+                    "'.mysqli_real_escape_string($connect, $_POST['name']).'",
+                    "'.mysqli_real_escape_string($connect, $_POST['code']).'",
+                    "'.mysqli_real_escape_string($connect, $_POST['year']).'",
+                    "'.mysqli_real_escape_string($connect, $_POST['semester']).'"
+                )';
+            mysqli_query($connect, $query);
+
+            set_message('Class has been added!', 'success');
+
+        } catch (Exception $e) {
+
+            set_message('There was an error adding this class!', 'error');
+
+        }
+                
     }
     else
     {
@@ -44,12 +55,20 @@ include('includes/header.php');
 
 <?php check_message(); ?>
 
+<hr>
+
 <form method="post">
 
     <label>
         Name:
         <br>
         <input type="text" name="name">
+    </label>
+
+    <label>
+        Code:
+        <br>
+        <input type="text" name="code">
     </label>
 
     <label>
@@ -61,10 +80,10 @@ include('includes/header.php');
     <label>
         Semester:
         <br>
-        <?php select('semester', SEMESTER); ?>
+        <?php select('semester', CLASS_SEMESTER); ?>
     </label>
 
-    <input type="submit" value="Add Class">
+    <input type="submit" value="Save">
 
 </form>
 

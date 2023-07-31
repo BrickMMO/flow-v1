@@ -51,7 +51,7 @@ elseif(isset($_GET['delete']))
     redirect('admin-class-list.php');
 }
 
-define('PAGE_TITLE', 'Class List');
+define('PAGE_TITLE', 'DasChange Classhboard');
 
 include('includes/header.php');
 

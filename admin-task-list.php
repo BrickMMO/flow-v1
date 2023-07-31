@@ -1,0 +1,82 @@
+<?php
+
+include('includes/connect.php');
+include('includes/config.php');
+include('includes/functions.php');
+
+secure('admin');
+
+if(isset($_GET['delete']))
+{
+    $query = 'DELETE FROM tasks
+        WHERE id = "'.$_GET['delete'].'"
+        LIMIT 1';
+    // mysqli_query($connect, $query);
+
+    set_message('Task has been deleted!');
+    redirect('admin-task-list.php');
+}
+
+define('PAGE_TITLE', 'Task List');
+
+include('includes/header.php');
+
+?>
+
+<h1>Task List</h1>
+
+<?php check_message(); ?>
+
+<?php
+
+$query = 'SELECT *,(
+        SELECT COUNT(*)
+        FROM class_task
+        WHERE task_id = tasks.id
+    ) AS classes
+    FROM tasks
+    ORDER BY name';
+$result = mysqli_query($connect, $query);
+
+?>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Classes</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    <?php while($task = mysqli_fetch_assoc($result)): ?>
+
+        <tr>
+            <td><?=$task['id']?></td>
+            <td>
+                <?=$task['name']?>
+                <small>
+                    <br>
+                    <?=$task['description']?>
+                    <br>
+                    <a href="<?=$task['url']?>"><?=$task['url']?></a>
+                </small>
+            </td>
+            <td><?=$task['classes']?></td>
+            <td><a href="admin-task-edit.php?id=<?=$task['id']?>">&#10000; Edit</a></td>
+            <td><a href="admin-task-list.php?delete=<?=$task['id']?>">&#10006; Delete</a></td>
+        </tr>
+
+    <?php endwhile; ?>
+
+</table>
+
+<div class="right">
+
+    <a href="admin-task-add.php">&#10010; Add Task</a>
+
+</div>
+
+<?php
+
+include('includes/footer.php');

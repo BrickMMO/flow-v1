@@ -14,7 +14,11 @@ session_start();
 // These are a set of variables that are used throughout the
 // application.
 
-define('STATUS', array('active' => 'Active', 'inactive' => 'Inactive'));
-define('SEMESTER', array('fall' => 'Fall', 'winter' => 'Winter', 'summer' => 'Summer'));
+define('ADMIN_STATUS', array('active' => 'Active', 'inactive' => 'Inactive'));
+define('STUDENT_STATUS', array('active' => 'Active', 'inactive' => 'Inactive'));
+
+define('TASK_STATUS', array('pending' => 'Pending', 'complete' => 'Complete'));
+
+define('CLASS_SEMESTER', array('fall' => 'Fall', 'winter' => 'Winter', 'summer' => 'Summer'));
 
 
