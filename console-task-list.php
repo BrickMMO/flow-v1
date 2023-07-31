@@ -14,7 +14,7 @@ if(isset($_GET['delete']))
     // mysqli_query($connect, $query);
 
     set_message('Task has been deleted!');
-    redirect('admin-task-list.php');
+    redirect('console-task-list.php');
 }
 
 define('PAGE_TITLE', 'Task List');
@@ -63,8 +63,8 @@ $result = mysqli_query($connect, $query);
                 </small>
             </td>
             <td><?=$task['classes']?></td>
-            <td><a href="admin-task-edit.php?id=<?=$task['id']?>">&#10000; Edit</a></td>
-            <td><a href="admin-task-list.php?delete=<?=$task['id']?>">&#10006; Delete</a></td>
+            <td><a href="console-task-edit.php?id=<?=$task['id']?>">&#10000; Edit</a></td>
+            <td><a href="console-task-list.php?delete=<?=$task['id']?>">&#10006; Delete</a></td>
         </tr>
 
     <?php endwhile; ?>
@@ -73,7 +73,7 @@ $result = mysqli_query($connect, $query);
 
 <div class="right">
 
-    <a href="admin-task-add.php">&#10010; Add Task</a>
+    <a href="console-task-add.php">&#10010; Add Task</a>
 
 </div>
 

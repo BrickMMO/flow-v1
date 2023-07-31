@@ -13,7 +13,7 @@
          <hr>
 
          <div class="left">
-            <a href="admin-dashboard.php">Dashboard</a> | 
+            <a href="console-dashboard.php">Dashboard</a> | 
             <a href="logout.php">Logout</a>
          </div>
 

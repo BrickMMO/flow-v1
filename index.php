@@ -5,7 +5,7 @@ include('includes/config.php');
 include('includes/functions.php');
 
 if(isset($_SESSION['student'])) redirect('dashboard.php');
-if(isset($_SESSION['admin'])) redirect('admin-dashboard.php');
+if(isset($_SESSION['admin'])) redirect('console-dashboard.php');
 
 define('PAGE_TITLE', 'Login');
 
@@ -45,7 +45,7 @@ if(isset($_POST['email']))
         $_SESSION['admin']['class_id'] = $admin['class_id'];
 
         set_message('You have been logged in!', 'success');
-        redirect('admin-dashboard.php');
+        redirect('console-dashboard.php');
     }
 
 

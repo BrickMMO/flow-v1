@@ -38,7 +38,7 @@ if(isset($_POST['name']))
         set_message('There was an error editing this class!', 'error');
     }
 
-    redirect('admin-class-list.php');
+    redirect('console-class-list.php');
 
 }
 elseif(isset($_GET['id']))
@@ -56,13 +56,13 @@ elseif(isset($_GET['id']))
     else
     {
         set_message('There was an error loading this class!', 'error');
-        redirect('admin-class-list.php');    
+        redirect('console-class-list.php');    
     }
 }
 else
 {
     set_message('There was an error loading this class!', 'error');
-    redirect('admin-class-list.php');
+    redirect('console-class-list.php');
 }
 
 include('includes/header.php');
@@ -109,7 +109,7 @@ include('includes/header.php');
 
 <div class="right">
 
-    <a href="admin-class-list.php">&#10006; Cancel</a>
+    <a href="console-class-list.php">&#10006; Cancel</a>
 
 </div>
 

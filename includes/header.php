@@ -36,7 +36,7 @@
 
             ?>
 
-            Current Class: <a href="admin-class-list.php"><?=$class['name']?></a>
+            Current Class: <a href="console-class-list.php"><?=$class['name']?></a>
 
             <hr>
 

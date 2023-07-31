@@ -17,7 +17,7 @@ if(isset($_GET['select']))
     $_SESSION['admin']['class_id'] = $_GET['select'];
 
     set_message('Class has been changed!', 'success');
-    redirect('admin-class-list.php');
+    redirect('console-class-list.php');
 }
 
 elseif(isset($_GET['delete']))
@@ -48,7 +48,7 @@ elseif(isset($_GET['delete']))
     $_SESSION['admin']['class_id'] = $admin['class_id'];
 
     set_message('Class has been deleted!');
-    redirect('admin-class-list.php');
+    redirect('console-class-list.php');
 }
 
 define('PAGE_TITLE', 'Class List');
@@ -97,7 +97,7 @@ $result = mysqli_query($connect, $query);
             <td><?=$class['year']?></td>
             <td><?=$class['students']?></td>
             <td>
-                <a href="admin-class-list.php?select=<?=$class['id']?>">
+                <a href="console-class-list.php?select=<?=$class['id']?>">
                     <?php if($class['id'] == $_SESSION['admin']['class_id']): ?>
                         &#9745;
                     <?php else: ?>
@@ -106,8 +106,8 @@ $result = mysqli_query($connect, $query);
                     Select
                 </a>
             </td>
-            <td><a href="admin-class-edit.php?id=<?=$class['id']?>">&#10000; Edit</a></td>
-            <td><a href="admin-class-list.php?delete=<?=$class['id']?>">&#10006; Delete</a></td>
+            <td><a href="console-class-edit.php?id=<?=$class['id']?>">&#10000; Edit</a></td>
+            <td><a href="console-class-list.php?delete=<?=$class['id']?>">&#10006; Delete</a></td>
         </tr>
 
     <?php endwhile; ?>
@@ -116,7 +116,7 @@ $result = mysqli_query($connect, $query);
 
 <div class="right">
 
-    <a href="admin-class-add.php">&#10010; Add Class</a>
+    <a href="console-class-add.php">&#10010; Add Class</a>
 
 </div>
 

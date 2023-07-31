@@ -37,7 +37,7 @@ if(isset($_POST['name']))
         set_message('There was an error editing this task!', 'error');
     }
 
-    redirect('admin-task-list.php');
+    redirect('console-task-list.php');
 
 }
 elseif(isset($_GET['id']))
@@ -55,13 +55,13 @@ elseif(isset($_GET['id']))
     else
     {
         set_message('There was an error loading this task!', 'error');
-        redirect('admin-task-list.php');    
+        redirect('console-task-list.php');    
     }
 }
 else
 {
     set_message('There was an error loading this task!', 'error');
-    redirect('admin-task-list.php');
+    redirect('console-task-list.php');
 }
 
 include('includes/header.php');
@@ -102,7 +102,7 @@ include('includes/header.php');
 
 <div class="right">
 
-    <a href="admin-task-list.php">&#10006; Cancel</a>
+    <a href="console-task-list.php">&#10006; Cancel</a>
 
 </div>
 

@@ -43,7 +43,7 @@ if(isset($_POST['name']))
         set_message('There was an error adding this class!', 'error');
     }
 
-    redirect('admin-class-list.php');
+    redirect('console-class-list.php');
 
 }
 
@@ -91,7 +91,7 @@ include('includes/header.php');
 
 <div class="right">
 
-    <a href="admin-class-list.php">&#10006; Cancel</a>
+    <a href="console-class-list.php">&#10006; Cancel</a>
 
 </div>
 

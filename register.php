@@ -5,7 +5,7 @@ include('includes/config.php');
 include('includes/functions.php');
 
 if(isset($_SESSION['student'])) redirect('dashboard.php');
-if(isset($_SESSION['admin'])) redirect('admin-dashboard.php');
+if(isset($_SESSION['admin'])) redirect('console-dashboard.php');
 
 define('PAGE_TITLE', 'Registration');
 
