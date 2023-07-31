@@ -16,15 +16,16 @@ body, tr, td, th, input, select {
     color: red;
     padding: 5px;
     margin: 10px 0;
-    border: 1px solid red;
+    border-top: 1px solid #eb062c;
+    border-bottom: 1px solid #eb062c;
 }
 
 .success {
     color: green;
     padding: 5px;
-    background-color: lightgrey;
     margin: 10px 0;
-    border: 1px solid green;
+    border-top: 1px solid green;
+    border-bottom: 1px solid green;
 }
 
 hr {
@@ -68,4 +69,12 @@ input, select {
     width: 100%;
     padding: 2px 3px;
     box-sizing: border-box;
+}
+
+a:link,
+a:visited,
+a:active,
+a:hover {
+    text-decoration: none;
+    color: #eb062c;
 }

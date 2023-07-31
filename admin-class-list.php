@@ -14,6 +14,8 @@ if(isset($_GET['select']))
         LIMIT 1';
     mysqli_query($connect, $query);
 
+    $_SESSION['admin']['class_id'] = $_GET['select'];
+
     set_message('Class has been changed!');
     redirect('admin-class-list.php');
 }
@@ -81,9 +83,18 @@ $result = mysqli_query($connect, $query);
             <td><?=$class['id']?></td>
             <td><?=$class['name']?></td>
             <td><?=$class['students']?></td>
-            <td><a href="admin-class-list.php?select=<?=$class['id']?>">Select</a></td>
-            <td><a href="admin-class-edit.php?id=<?=$class['id']?>">Edit</a></td>
-            <td><a href="admin-class-list.php?delete=<?=$class['id']?>">Delete</a></td>
+            <td>
+                <a href="admin-class-list.php?select=<?=$class['id']?>">
+                    <?php if($class['id'] == $_SESSION['admin']['class_id']): ?>
+                        &#9745;
+                    <?php else: ?>
+                        &#9744; 
+                    <?php endif; ?>
+                    Select
+                </a>
+            </td>
+            <td><a href="admin-class-edit.php?id=<?=$class['id']?>">&#10000; Edit</a></td>
+            <td><a href="admin-class-list.php?delete=<?=$class['id']?>">&#10006; Delete</a></td>
         </tr>
 
     <?php endwhile; ?>
@@ -92,7 +103,7 @@ $result = mysqli_query($connect, $query);
 
 <div class="right">
 
-    <a href="admin-class-add.php">Add Class</a>
+    <a href="admin-class-add.php">&#10010; Add Class</a>
 
 </div>
 

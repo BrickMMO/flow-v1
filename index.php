@@ -42,6 +42,7 @@ if(isset($_POST['email']))
         $admin = mysqli_fetch_assoc($result);
 
         $_SESSION['admin']['id'] = $admin['id'];
+        $_SESSION['admin']['class_id'] = $admin['class_id'];
 
         set_message('You have been logged in!', 'success');
         redirect('admin-dashboard.php');
@@ -86,7 +87,7 @@ include('includes/header.php');
 
 <div class="left">
 
-    <a href="forgot.php">Forgot Password</a> | <a href="register.php">Register</a>
+    <a href="forgot.php">Forgot Password</a> | <a href="register.php"> Register</a>
 
 </div>
 

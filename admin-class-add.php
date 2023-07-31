@@ -72,7 +72,7 @@ include('includes/header.php');
 
 <div class="right">
 
-    <a href="admin-class-list.php">Cancel</a>
+    <a href="admin-class-list.php">&#10006; Cancel</a>
 
 </div>
 
