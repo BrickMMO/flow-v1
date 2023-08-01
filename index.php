@@ -9,8 +9,9 @@ if(isset($_SESSION['admin'])) redirect('console-dashboard.php');
 
 define('PAGE_TITLE', 'Login');
 
-if(isset($_POST['email']))
+if(isset($_POST['submit']))
 {
+
     $query = 'SELECT *
         FROM students
         WHERE email = "'.mysqli_real_escape_string($connect, $_POST['email']).'"
@@ -21,12 +22,14 @@ if(isset($_POST['email']))
 
     if(mysqli_num_rows($result))
     {
+
         $student = mysqli_fetch_assoc($result);
 
         $_SESSION['student']['id'] = $student['id'];
 
         set_message('You have been logged in!', 'success');
         redirect('dashboard.php');
+
     }
     
     $query = 'SELECT *
@@ -39,6 +42,7 @@ if(isset($_POST['email']))
 
     if(mysqli_num_rows($result))
     {
+
         $admin = mysqli_fetch_assoc($result);
 
         $_SESSION['admin']['id'] = $admin['id'];
@@ -46,8 +50,8 @@ if(isset($_POST['email']))
 
         set_message('You have been logged in!', 'success');
         redirect('console-dashboard.php');
-    }
 
+    }
 
 }
 
@@ -66,6 +70,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         Email:

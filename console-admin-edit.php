@@ -8,13 +8,14 @@ secure('admin');
 
 define('PAGE_TITLE', 'Edit Admin');
 
-if(isset($_POST['first']))
+if(isset($_POST['submit']))
 {
     
     if($_POST['first'] && $_POST['last'] && $_POST['email'])
     {
 
-        try {
+        try 
+        {
         
             $query = 'UPDATE admins SET 
                 first = "'.mysqli_real_escape_string($connect, $_POST['first']).'",
@@ -27,18 +28,20 @@ if(isset($_POST['first']))
 
             if(isset($_POST['password']))
             {
+
                 $query = 'UPDATE admins SET 
                     password = "'.md5($_POST['password']).'"
                     WHERE id = "'.$_GET['id'].'"
                     LIMIT 1';
                 mysqli_query($connect, $query);
+
             }
 
             set_message('Admin has been edited!', 'success');
 
-        } catch (Exception $e) {
-
-            die('1');
+        }
+        catch(Exception $e) 
+        {
 
             set_message('There was an error editing this admin!', 'error');
 
@@ -47,8 +50,9 @@ if(isset($_POST['first']))
     }
     else
     {
-        die('2');
+
         set_message('There was an error editing this admin!', 'error');
+
     }
 
     redirect('console-admin-list.php');
@@ -56,6 +60,7 @@ if(isset($_POST['first']))
 }
 elseif(isset($_GET['id']))
 {
+
     $query = 'SELECT *
         FROM admins
         WHERE id = "'.$_GET['id'].'"
@@ -64,18 +69,25 @@ elseif(isset($_GET['id']))
 
     if(mysqli_num_rows($result))
     {
+
         $record = mysqli_fetch_assoc($result);
+
     }
     else
     {
+
         set_message('There was an error loading this admin!', 'error');
         redirect('console-task-list.php');    
+
     }
+
 }
 else
 {
+
     set_message('There was an error loading this admin!', 'error');
     redirect('console-task-list.php');
+
 }
 
 include('includes/header.php');
@@ -89,6 +101,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         First Name:

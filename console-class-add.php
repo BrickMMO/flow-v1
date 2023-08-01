@@ -8,13 +8,14 @@ secure('admin');
 
 define('PAGE_TITLE', 'Add Class');
 
-if(isset($_POST['name']))
+if(isset($_POST['submit']))
 {
     
     if($_POST['name'] && $_POST['year'] && $_POST['year'] && $_POST['semester'])
     {
 
-        try {
+        try 
+        {
 
             $query = 'INSERT INTO classes (
                     name, 
@@ -31,7 +32,9 @@ if(isset($_POST['name']))
 
             set_message('Class has been added!', 'success');
 
-        } catch (Exception $e) {
+        }
+        catch(Exception $e) 
+        {
 
             set_message('There was an error adding this class!', 'error');
 
@@ -40,7 +43,9 @@ if(isset($_POST['name']))
     }
     else
     {
+
         set_message('There was an error adding this class!', 'error');
+        
     }
 
     redirect('console-class-list.php');
@@ -58,6 +63,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         Name:

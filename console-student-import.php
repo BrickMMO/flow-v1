@@ -8,7 +8,7 @@ secure('admin');
 
 define('PAGE_TITLE', 'Add Student');
 
-if(isset($_FILES['import']))
+if(isset($_POST['submit']))
 {
     
     if($_FILES['import']['type'] == 'text/csv' && $_FILES['import']['error'] == 0)
@@ -70,7 +70,6 @@ if(isset($_FILES['import']))
                     mysqli_query($connect, $query);
 
                 }
-            
 
             }
             
@@ -81,7 +80,9 @@ if(isset($_FILES['import']))
     }
     else
     {
+
         set_message('There was an error importing this list!', 'error');
+        
     }
 
     redirect('console-student-list.php');
@@ -114,6 +115,8 @@ include('includes/header.php');
 </table>
 
 <form method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         <input type="file" name="import">

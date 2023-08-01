@@ -9,7 +9,7 @@ if(isset($_SESSION['admin'])) redirect('console-dashboard.php');
 
 define('PAGE_TITLE', 'Forgot Password');
 
-if(isset($_POST['email']))
+if(isset($_POST['submit']))
 {
 
     $query = 'SELECT *
@@ -21,6 +21,7 @@ if(isset($_POST['email']))
 
     if(mysqli_num_rows($result))
     {
+
         $student = mysqli_fetch_assoc($result);
         
         $password = rand(100000000, 999999999);
@@ -40,6 +41,7 @@ if(isset($_POST['email']))
 
         set_message('A temporary password has been sent to '.$_POST['email'].'!', 'success');
         redirect('/');
+
     }
     
     $query = 'SELECT *
@@ -51,6 +53,7 @@ if(isset($_POST['email']))
 
     if(mysqli_num_rows($result))
     {
+
         $admin = mysqli_fetch_assoc($result);
 
         sendgrid_mail(
@@ -68,6 +71,7 @@ if(isset($_POST['email']))
 
         set_message('A temporary password has been sent to '.$_POST['email'].'!', 'success');
         redirect('/');
+        
     }
 
     set_message('There was no account associated to '.$_POST['email'].'!', 'error');
@@ -88,6 +92,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         Email:

@@ -8,13 +8,14 @@ secure('admin');
 
 define('PAGE_TITLE', 'Edit Class');
 
-if(isset($_POST['name']))
+if(isset($_POST['submit']))
 {
     
     if($_POST['name'] && $_POST['year'] && $_POST['year'] && $_POST['semester'])
     {
 
-        try {
+        try 
+        {
         
             $query = 'UPDATE classes SET 
                 name = "'.mysqli_real_escape_string($connect, $_POST['name']).'",
@@ -27,7 +28,9 @@ if(isset($_POST['name']))
 
             set_message('Class has been edited!', 'success');
 
-        } catch (Exception $e) {
+        }
+        catch(Exception $e) 
+        {
 
             set_message('There was an error editing this class!', 'error');
 
@@ -36,7 +39,9 @@ if(isset($_POST['name']))
     }
     else
     {
+
         set_message('There was an error editing this class!', 'error');
+
     }
 
     redirect('console-class-list.php');
@@ -44,6 +49,7 @@ if(isset($_POST['name']))
 }
 elseif(isset($_GET['id']))
 {
+
     $query = 'SELECT *
         FROM classes
         WHERE id = "'.$_GET['id'].'"
@@ -52,18 +58,25 @@ elseif(isset($_GET['id']))
 
     if(mysqli_num_rows($result))
     {
+
         $record = mysqli_fetch_assoc($result);
+        
     }
     else
     {
+
         set_message('There was an error loading this class!', 'error');
         redirect('console-class-list.php');    
+
     }
+
 }
 else
 {
+
     set_message('There was an error loading this class!', 'error');
     redirect('console-class-list.php');
+
 }
 
 include('includes/header.php');
@@ -77,6 +90,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         Name:

@@ -8,13 +8,14 @@ secure('admin');
 
 define('PAGE_TITLE', 'Edit Task');
 
-if(isset($_POST['name']))
+if(isset($_POST['submit']))
 {
     
     if($_POST['name'] && $_POST['description'] && $_POST['url'])
     {
 
-        try {
+        try 
+        {
         
             $query = 'UPDATE tasks SET 
                 name = "'.mysqli_real_escape_string($connect, $_POST['name']).'",
@@ -26,7 +27,9 @@ if(isset($_POST['name']))
 
             set_message('Task has been edited!', 'success');
 
-        } catch (Exception $e) {
+        }
+        catch(Exception $e) 
+        {
 
             set_message('There was an error editing this task!', 'error');
 
@@ -35,7 +38,9 @@ if(isset($_POST['name']))
     }
     else
     {
+
         set_message('There was an error editing this task!', 'error');
+
     }
 
     redirect('console-task-list.php');
@@ -43,6 +48,7 @@ if(isset($_POST['name']))
 }
 elseif(isset($_GET['id']))
 {
+
     $query = 'SELECT *
         FROM tasks
         WHERE id = "'.$_GET['id'].'"
@@ -51,18 +57,25 @@ elseif(isset($_GET['id']))
 
     if(mysqli_num_rows($result))
     {
+
         $record = mysqli_fetch_assoc($result);
+
     }
     else
     {
+
         set_message('There was an error loading this task!', 'error');
         redirect('console-task-list.php');    
+
     }
+
 }
 else
 {
+
     set_message('There was an error loading this task!', 'error');
     redirect('console-task-list.php');
+    
 }
 
 include('includes/header.php');
@@ -76,6 +89,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         Name:

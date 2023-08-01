@@ -8,13 +8,14 @@ secure('admin');
 
 define('PAGE_TITLE', 'Add Admin');
 
-if(isset($_POST['first']))
+if(isset($_POST['submit']))
 {
     
     if($_POST['first'] && $_POST['last'] && $_POST['email'])
     {
         
-        try {
+        try 
+        {
 
             if(!$_POST['password']) $_POST['password'] = 'password';
 
@@ -37,7 +38,9 @@ if(isset($_POST['first']))
 
             set_message('Admin has been added!', 'success');
 
-        } catch (Exception $e) {
+        } 
+        catch(Exception $e) 
+        {
 
             set_message('There was an error adding this admin!', 'error');
 
@@ -46,7 +49,9 @@ if(isset($_POST['first']))
     }
     else
     {
+        
         set_message('There was an error adding this admin!', 'error');
+
     }
 
     redirect('console-admin-list.php');
@@ -64,6 +69,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         First Name:

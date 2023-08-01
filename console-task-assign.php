@@ -6,40 +6,14 @@ include('includes/functions.php');
 
 secure('admin');
 
-define('PAGE_TITLE', 'Add Task');
+define('PAGE_TITLE', 'Assign Task');
 
-if(isset($_POST['name']))
+if(isset($_POST['submit']))
 {
+
+    die('ASSIGN');
     
-    if($_POST['name'] && $_POST['description'] && $_POST['url'])
-    {
-        
-        try {
-
-            $query = 'INSERT INTO tasks (
-                    name, 
-                    description,
-                    url
-                ) VALUES (
-                    "'.mysqli_real_escape_string($connect, $_POST['name']).'",
-                    "'.mysqli_real_escape_string($connect, $_POST['description']).'",
-                    "'.mysqli_real_escape_string($connect, $_POST['url']).'"
-                )';
-            mysqli_query($connect, $query);
-
-            set_message('Task has been added!', 'success');
-
-        } catch (Exception $e) {
-
-            set_message('There was an error adding this task!', 'error');
-
-        }
-                
-    }
-    else
-    {
-        set_message('There was an error adding this task!', 'error');
-    }
+    set_message('Tasks have been assigned!', 'success');
 
     redirect('console-task-list.php');
 
@@ -57,25 +31,30 @@ include('includes/header.php');
 
 <form method="post">
 
-    <label>
-        Name:
-        <br>
-        <input type="text" name="name">
-    </label>
+    <input type="hidden" name="submit" value="true">
 
-    <label>
-        Description:
-        <br>
-        <textarea name="description"></textarea>
-    </label>
+    <?php
 
-    <label>
-        URL:
-        <br>
-        <input type="url" name="url">
-    </label>
+    $query = 'SELECT tasks.*,class_task.class_id 
+        FROM tasks
+        LEFT JOIN class_task
+        ON task_id = tasks.id
+        AND class_id = "'.$_GET['id'].'"
+        ORDER BY name';
+    
+    $result = mysqli_query($connect, $query);
 
-    <input type="submit" value="Save">
+    ?>
+
+    <?php while($task = mysqli_fetch_assoc($result)): ?>
+
+        <label>
+            <input type="checkbox" value="<?=$task['id']?>"<?php if($task['class_id']): ?> selected<?php endif; ?>> <?=$task['name']?>
+        </label>
+
+    <?php endwhile; ?>
+    
+    <input type="submit" value="Assign">
 
 </form>
 

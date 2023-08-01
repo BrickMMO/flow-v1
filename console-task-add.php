@@ -8,13 +8,14 @@ secure('admin');
 
 define('PAGE_TITLE', 'Add Task');
 
-if(isset($_POST['name']))
+if(isset($_POST['submit']))
 {
     
     if($_POST['name'] && $_POST['description'] && $_POST['url'])
     {
         
-        try {
+        try 
+        {
 
             $query = 'INSERT INTO tasks (
                     name, 
@@ -29,7 +30,9 @@ if(isset($_POST['name']))
 
             set_message('Task has been added!', 'success');
 
-        } catch (Exception $e) {
+        }
+        catch(Exception $e) 
+        {
 
             set_message('There was an error adding this task!', 'error');
 
@@ -38,7 +41,9 @@ if(isset($_POST['name']))
     }
     else
     {
+
         set_message('There was an error adding this task!', 'error');
+        
     }
 
     redirect('console-task-list.php');
@@ -56,6 +61,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         Name:

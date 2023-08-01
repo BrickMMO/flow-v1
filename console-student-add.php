@@ -8,7 +8,7 @@ secure('admin');
 
 define('PAGE_TITLE', 'Add Student');
 
-if(isset($_POST['first']))
+if(isset($_POST['submit']))
 {
     
     $query = 'SELECT id
@@ -19,6 +19,7 @@ if(isset($_POST['first']))
 
     if(mysqli_num_rows($result))
     {
+        
         $student = mysqli_fetch_assoc($result);
 
         $query = 'INSERT IGNORE INTO class_student (
@@ -31,12 +32,14 @@ if(isset($_POST['first']))
         mysqli_query($connect, $query);
 
         set_message('Student has been added!', 'success');
+
     }
 
     elseif($_POST['first'] && $_POST['last'] && $_POST['email'])
     {
         
-        try {
+        try 
+        {
 
             if(!$_POST['password']) $_POST['password'] = 'password';
 
@@ -70,9 +73,10 @@ if(isset($_POST['first']))
 
             set_message('Student has been added!', 'success');
 
-        } catch (Exception $e) {
+        }
+        catch(Exception $e) 
+        {
 
-            die('1');
             set_message('There was an error adding this student!', 'error');
 
         }
@@ -80,8 +84,9 @@ if(isset($_POST['first']))
     }
     else
     {
-        die('2');
+
         set_message('There was an error adding this student!', 'error');
+
     }
 
     redirect('console-student-list.php');
@@ -99,6 +104,8 @@ include('includes/header.php');
 <hr>
 
 <form method="post">
+
+    <input type="hidden" name="submit" value="true">
 
     <label>
         First Name:

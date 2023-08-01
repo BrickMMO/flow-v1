@@ -47,6 +47,7 @@ $result = mysqli_query($connect, $query);
         <th>Classes</th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
 
     <?php while($task = mysqli_fetch_assoc($result)): ?>
@@ -63,6 +64,7 @@ $result = mysqli_query($connect, $query);
                 </small>
             </td>
             <td><?=$task['classes']?></td>
+            <td><a href="console-task-assign.php?id=<?=$task['id']?>">&#9755; Assign</a></td>
             <td><a href="console-task-edit.php?id=<?=$task['id']?>">&#10000; Edit</a></td>
             <td><a href="console-task-list.php?delete=<?=$task['id']?>">&#10006; Delete</a></td>
         </tr>
