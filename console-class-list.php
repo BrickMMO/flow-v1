@@ -67,7 +67,11 @@ $query = 'SELECT *,(
         SELECT COUNT(*)
         FROM class_student
         WHERE class_id = classes.id
-    ) AS students
+    ) AS students,(
+        SELECT COUNT(*)
+        FROM class_task
+        WHERE class_id = classes.id
+    ) AS tasks
     FROM classes
     ORDER BY year,semester';
 $result = mysqli_query($connect, $query);
@@ -78,8 +82,7 @@ $result = mysqli_query($connect, $query);
     <tr>
         <th>ID</th>
         <th>Class</th>
-        <th>Semester</th>
-        <th>Year</th>
+        <th>Tasks</th>
         <th>Students</th>
         <th></th>
         <th></th>
@@ -92,9 +95,12 @@ $result = mysqli_query($connect, $query);
             <td><?=$class['id']?></td>
             <td>
                 <?=$class['code']?> - <?=$class['name']?>
+                <small>
+                    <br>
+                    <?=CLASS_SEMESTER[$class['semester']]?> - <?=$class['year']?>
+                </small>
             </td>
-            <td><?=CLASS_SEMESTER[$class['semester']]?></td>
-            <td><?=$class['year']?></td>
+            <td><?=$class['tasks']?></td>
             <td><?=$class['students']?></td>
             <td>
                 <a href="console-class-list.php?select=<?=$class['id']?>">
