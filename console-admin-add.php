@@ -16,7 +16,7 @@ if(isset($_POST['first']))
         
         try {
 
-            if(!$_POST['email']) $_POST['email'] = 'password';
+            if(!$_POST['password']) $_POST['password'] = 'password';
 
             $query = 'INSERT INTO admins (
                     first,
@@ -31,12 +31,7 @@ if(isset($_POST['first']))
                     "'.mysqli_real_escape_string($connect, $_POST['github']).'",
                     "'.mysqli_real_escape_string($connect, $_POST['email']).'",
                     "'.md5($_POST['password']).'",
-                    (
-                        SELECT id
-                        FROM classes
-                        ORDER BY year DESC
-                        LIMIT 1
-                    )
+                    "'.$_SESSION['admin']['class_id'].'"
                 )';
             mysqli_query($connect, $query);
 
@@ -44,7 +39,6 @@ if(isset($_POST['first']))
 
         } catch (Exception $e) {
 
-            die('1');
             set_message('There was an error adding this admin!', 'error');
 
         }
@@ -52,7 +46,6 @@ if(isset($_POST['first']))
     }
     else
     {
-        die('2');
         set_message('There was an error adding this admin!', 'error');
     }
 

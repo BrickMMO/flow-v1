@@ -6,108 +6,75 @@ include('includes/functions.php');
 
 secure('admin');
 
-if(isset($_GET['select']))
+if(isset($_GET['delete']))
 {
-    $query = 'UPDATE admins SET 
-        class_id = "'.$_GET['select'].'"
-        WHERE admins.id = "'.$_SESSION['admin']['id'].'"
+    $query = 'DELETE FROM class_student
+        WHERE class_id = "'.$_SESSION['admin']['class_id'].'"
+        AND student_id = "'.$_GET['delete'].'"
         LIMIT 1';
     mysqli_query($connect, $query);
 
-    $_SESSION['admin']['class_id'] = $_GET['select'];
-
-    set_message('Class has been changed!', 'success');
-    redirect('console-class-list.php');
+    set_message('Student has been removed from class!');
+    redirect('console-student-list.php');
 }
 
-elseif(isset($_GET['delete']))
-{
-    $query = 'DELETE FROM classes
-        WHERE id = "'.$_GET['delete'].'"
-        LIMIT 1';
-    mysqli_query($connect, $query);
-
-    $query = 'UPDATE admins SET
-        class_id = (
-            SELECT id
-            FROM classes
-            ORDER BY year DESC
-            LIMIT 1
-        ) 
-        WHERE class_id = "'.$_GET['delete'].'"';
-    mysqli_query($connect, $query);
-
-    $query = 'SELECT class_id
-        FROM admins
-        WHERE id = "'.$_SESSION['admin']['id'].'"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
-
-    $admin = mysqli_fetch_assoc($result);
-
-    $_SESSION['admin']['class_id'] = $admin['class_id'];
-
-    set_message('Class has been deleted!');
-    redirect('console-class-list.php');
-}
-
-define('PAGE_TITLE', 'DasChange Classhboard');
+define('PAGE_TITLE', 'Student List');
 
 include('includes/header.php');
 
 ?>
 
-<h1>Class List</h1>
+<h1>Student List</h1>
 
 <?php check_message(); ?>
 
 <?php
 
-$query = 'SELECT *,(
-        SELECT COUNT(*)
-        FROM class_student
-        WHERE class_id = classes.id
-    ) AS students
-    FROM classes
-    ORDER BY year,semester';
+$query = 'SELECT students.*
+    FROM students
+    INNER JOIN class_student
+    ON students.id = class_student.student_id
+    WHERE class_id = "'.$_SESSION['admin']['class_id'].'"
+    ORDER BY last, first';
 $result = mysqli_query($connect, $query);
 
 ?>
 
 <table>
     <tr>
-        <th>ID</th>
-        <th>Class</th>
-        <th>Semester</th>
-        <th>Year</th>
-        <th>Students</th>
         <th></th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
         <th></th>
         <th></th>
     </tr>
 
-    <?php while($class = mysqli_fetch_assoc($result)): ?>
+    <?php while($student = mysqli_fetch_assoc($result)): ?>
 
         <tr>
-            <td><?=$class['id']?></td>
             <td>
-                <?=$class['code']?> - <?=$class['name']?>
+                <?php if($student['github']): ?>
+                    <img src="https://github.com/<?=$student['github']?>.png?size=60" width="60">
+                <?php endif; ?>
             </td>
-            <td><?=CLASS_SEMESTER[$class['semester']]?></td>
-            <td><?=$class['year']?></td>
-            <td><?=$class['students']?></td>
+            <td><?=$student['id']?></td>
             <td>
-                <a href="console-class-list.php?select=<?=$class['id']?>">
-                    <?php if($class['id'] == $_SESSION['admin']['class_id']): ?>
-                        &#9745;
-                    <?php else: ?>
-                        &#9744; 
+                <?=$student['first']?> <?=$student['last']?>
+                <small>
+                    <?php if($student['github']): ?>
+                        <br>
+                        <a href="https://github.com/<?=$student['github']?>/">https://github.com/<?=$student['github']?>/</a>
                     <?php endif; ?>
-                    Select
-                </a>
+                    <?php if($student['linkedin']): ?>
+                        <br>
+                        <a href="https://www.linkedin.com/in/<?=$student['linkedin']?>/">https://www.linkedin.com/in/<?=$student['linkedin']?>/</a>
+                    <?php endif; ?>
+                </small>
             </td>
-            <td><a href="console-class-edit.php?id=<?=$class['id']?>">&#10000; Edit</a></td>
-            <td><a href="console-class-list.php?delete=<?=$class['id']?>">&#10006; Delete</a></td>
+            <td><a href="mailto:<?=$student['email']?>"><?=$student['email']?></a></td>
+            <td><a href="console-student-edit.php?id=<?=$student['id']?>">&#10000; Edit</a></td>
+            <td><a href="console-student-list.php?delete=<?=$student['id']?>">&#10006; Delete</a></td>
         </tr>
 
     <?php endwhile; ?>
@@ -116,7 +83,8 @@ $result = mysqli_query($connect, $query);
 
 <div class="right">
 
-    <a href="console-class-add.php">&#10010; Add Class</a>
+    <a href="console-student-import.php">&#9776; Import Students</a>
+    <a href="console-student-add.php">&#10010; Add Student</a>
 
 </div>
 

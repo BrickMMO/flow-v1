@@ -52,7 +52,7 @@ $result = mysqli_query($connect, $query);
         <tr>
             <td>
                 <?php if($admin['github']): ?>
-                    <img src="https://github.com/<?=$admin['github']?>.png?size=60">
+                    <img src="https://github.com/<?=$admin['github']?>.png?size=60" width="60">
                 <?php endif; ?>
             </td>
             <td><?=$admin['id']?></td>
