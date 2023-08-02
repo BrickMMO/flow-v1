@@ -8,47 +8,24 @@ secure('admin');
 
 if(isset($_GET['select']))
 {
-    $query = 'UPDATE admins SET 
-        class_id = "'.$_GET['select'].'"
-        WHERE admins.id = "'.$_SESSION['admin']['id'].'"
-        LIMIT 1';
-    mysqli_query($connect, $query);
 
-    $_SESSION['admin']['class_id'] = $_GET['select'];
+    update_session_class($_GET['select']);
 
     set_message('Class has been changed!', 'success');
     redirect('console-class-list.php');
+    
 }
 
 elseif(isset($_GET['delete']))
 {
-    $query = 'DELETE FROM classes
-        WHERE id = "'.$_GET['delete'].'"
-        LIMIT 1';
-    mysqli_query($connect, $query);
 
-    $query = 'UPDATE admins SET
-        class_id = (
-            SELECT id
-            FROM classes
-            ORDER BY year DESC
-            LIMIT 1
-        ) 
-        WHERE class_id = "'.$_GET['delete'].'"';
-    mysqli_query($connect, $query);
+    delete_class($_GET['delete']);
 
-    $query = 'SELECT class_id
-        FROM admins
-        WHERE id = "'.$_SESSION['admin']['id'].'"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
-
-    $admin = mysqli_fetch_assoc($result);
-
-    $_SESSION['admin']['class_id'] = $admin['class_id'];
+    update_session_class();
 
     set_message('Class has been deleted!');
     redirect('console-class-list.php');
+
 }
 
 define('PAGE_TITLE', 'Class List');
@@ -73,7 +50,7 @@ $query = 'SELECT *,(
         WHERE class_id = classes.id
     ) AS tasks
     FROM classes
-    ORDER BY year,semester';
+    ORDER BY year, semester, name';
 $result = mysqli_query($connect, $query);
 
 ?>
@@ -102,16 +79,7 @@ $result = mysqli_query($connect, $query);
             </td>
             <td><?=$class['tasks']?></td>
             <td><?=$class['students']?></td>
-            <td>
-                <a href="console-class-list.php?select=<?=$class['id']?>">
-                    <?php if($class['id'] == $_SESSION['admin']['class_id']): ?>
-                        &#9745;
-                    <?php else: ?>
-                        &#9744; 
-                    <?php endif; ?>
-                    Select
-                </a>
-            </td>
+            <td><a href="console-class-details.php?id=<?=$class['id']?>">&#9782; Details</a></td>
             <td><a href="console-class-edit.php?id=<?=$class['id']?>">&#10000; Edit</a></td>
             <td><a href="console-class-list.php?delete=<?=$class['id']?>">&#10006; Delete</a></td>
         </tr>

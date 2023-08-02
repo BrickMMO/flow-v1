@@ -46,7 +46,6 @@ if(isset($_POST['submit']))
         $admin = mysqli_fetch_assoc($result);
 
         $_SESSION['admin']['id'] = $admin['id'];
-        $_SESSION['admin']['class_id'] = $admin['class_id'];
 
         set_message('You have been logged in!', 'success');
         redirect('console-dashboard.php');

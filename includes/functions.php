@@ -65,13 +65,6 @@ function sendgrid_mail($to_email, $to_name, $subject, $message)
     $response = curl_exec($session);
     curl_close($session);
 
-    /*
-    echo '<pre>';
-    print_r($response);
-    echo '</pre>';
-    die();
-    /**/
-
 }
 
 function select($name, $options, $selected = false)
@@ -88,5 +81,114 @@ function select($name, $options, $selected = false)
     </select>
 
     <?php
+
+}
+
+function delete_class($id)
+{
+
+    global $connect;
+
+    $query = 'DELETE FROM class_task
+        WHERE class_id = "'.$id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM class_student
+        WHERE class_id = "'.$id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM classes
+        WHERE id = "'.$id.'"
+        LIMIT 1';
+    mysqli_query($connect, $query);
+
+}
+
+function delete_task($id)
+{
+
+    global $connect;
+
+    $query = 'DELETE FROM student_task
+        WHERE task_id = "'.$id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM class_task
+        WHERE task_id = "'.$id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM tasks
+        WHERE id = "'.$id.'"
+        LIMIT 1';
+    mysqli_query($connect, $query);
+
+}
+
+function delete_student($id)
+{
+
+    global $connect;
+
+    $query = 'DELETE FROM student_task
+        WHERE student_id = "'.$id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM class_student
+        WHERE student_id = "'.$id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM students
+        WHERE id = "'.$id.'"
+        LIMIT 1';
+    mysqli_query($connect, $query);
+
+}
+
+function student_enroll($student_id, $class_id)
+{
+
+    global $connect;
+
+    $query = 'INSERT IGNORE INTO class_student (
+            class_id,
+            student_id
+        ) VALUES (
+            "'.$class_id.'",
+            "'.$student_id.'"
+        )';
+    mysqli_query($connect, $query);
+
+}
+
+function task_assign($task_id, $class_id)
+{
+
+    global $connect;
+
+    $query = 'INSERT IGNORE INTO class_task (
+            class_id,
+            task_id
+        ) VALUES (
+            "'.$class_id.'",
+            "'.$task_id.'"
+        )';
+    mysqli_query($connect, $query);
+
+}
+
+function task_unassign($task_id, $class_id)
+{
+
+    global $connect;
+
+    $query = 'DELETE FROM class_task
+        WHERE class_id = "'.$class_id.'"
+        AND task_id = "'.$task_id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM student_task
+        WHERE class_id = "'.$class_id.'"
+        AND task_id = "'.$task_id.'"';
+    mysqli_query($connect, $query);
 
 }

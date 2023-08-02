@@ -21,23 +21,3 @@
         </div>
 
         <hr>
-
-        <?php if(isset($_SESSION['admin'])): ?>
-
-            <?php
-
-            $query = 'SELECT id, name
-                FROM classes
-                WHERE id = "'.$_SESSION['admin']['class_id'].'"
-                LIMIT 1';
-            $result = mysqli_query($connect, $query);
-
-            $class = mysqli_fetch_assoc($result);
-
-            ?>
-
-            Current Class: <a href="console-class-list.php"><?=$class['name']?></a>
-
-            <hr>
-
-        <?php endif; ?>

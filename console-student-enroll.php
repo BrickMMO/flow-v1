@@ -6,7 +6,7 @@ include('includes/functions.php');
 
 secure('admin');
 
-define('PAGE_TITLE', 'Assign Task');
+define('PAGE_TITLE', 'AssiEnroll Student');
 
 if(isset($_POST['submit']))
 {
@@ -14,19 +14,19 @@ if(isset($_POST['submit']))
     if($_POST['class_id'])
     {
 
-        task_assign($_GET['id'], $_POST['class_id']);
+        student_enroll($_GET['id'], $_POST['class_id']);
 
-        set_message('Task has been assigned!', 'success');
+        set_message('Student has been enrolled!', 'success');
 
     }
     else
     {
         
-        set_message('There was an error assigning this task!', 'error');
+        set_message('There was an error enrolling this student!', 'error');
 
     }
     
-    redirect('console-task-list.php');
+    redirect('console-student-list.php');
 
 }
 
@@ -34,7 +34,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Assign Task</h1>
+<h1>Enroll Student</h1>
 
 <?php check_message(); ?>
 
@@ -46,12 +46,12 @@ include('includes/header.php');
 
     <?php
 
-    $query = 'SELECT classes.*,class_task.class_id 
+    $query = 'SELECT classes.*,class_student.class_id 
         FROM classes
-        LEFT JOIN class_task
+        LEFT JOIN class_student
         ON class_id = classes.id
-        AND task_id = "'.$_GET['id'].'"
-        ORDER BY name';
+        AND student_id = "'.$_GET['id'].'"
+        ORDER BY year, semester, name';
     
     $result = mysqli_query($connect, $query);
 
@@ -68,16 +68,16 @@ include('includes/header.php');
 
                 <option value="<?=$class['id']?>">
                     <?=$class['name']?> - <?=CLASS_SEMESTER[$class['semester']]?> <?=$class['year']?>
-                    <?php if($class['class_id']): ?> (assigned)<?php endif; ?>
+                    <?php if($class['class_id']): ?> (enrolled)<?php endif; ?>
                 </option>
-
+        
             <?php endwhile; ?>
             
         </select>
 
     </label>
 
-    <input type="submit" value="Assign">
+    <input type="submit" value="Enroll">
 
 </form>
 

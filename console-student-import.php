@@ -30,44 +30,46 @@ if(isset($_POST['submit']))
 
                 if(mysqli_num_rows($result))
                 {
+
                     $student = mysqli_fetch_assoc($result);
-            
-                    $query = 'INSERT IGNORE INTO class_student (
-                            class_id,
-                            student_id
-                        ) VALUES (
-                            "'.$_SESSION['admin']['class_id'].'",
-                            "'.$student['id'].'"
-                        )';
-                    mysqli_query($connect, $query);
+
+                    $id = $student['id'];
+
                 }
-            
-                elseif($data[0] && $data[1] && $data[2])
+                else
                 {
+
+                    if($data[0] && $data[1] && $data[2])
+                    {
+                    
+                        $query = 'INSERT INTO students (
+                                first,
+                                last, 
+                                email,
+                                password
+                            ) VALUES (
+                                "'.$data[0].'",
+                                "'.$data[1].'",
+                                "'.$data[2].'",
+                                "'.md5('password').'"
+                            )';
+                        mysqli_query($connect, $query);
                 
-                    $query = 'INSERT INTO students (
-                            first,
-                            last, 
-                            email,
-                            password
-                        ) VALUES (
-                            "'.$data[0].'",
-                            "'.$data[1].'",
-                            "'.$data[2].'",
-                            "'.md5('password').'"
-                        )';
-                    mysqli_query($connect, $query);
+                        $id = mysqli_insert_id($connect);
+
+                    }
+
+                }
+
+                if(isset($_POST['classes']))
+                {
+
+                    foreach($_POST['classes'] as $class_id)
+                    {
             
-                    $id = mysqli_insert_id($connect);
+                        student_enroll($id, $class_id);
             
-                    $query = 'INSERT IGNORE INTO class_student (
-                            class_id,
-                            student_id
-                        ) VALUES (
-                            "'.$_SESSION['admin']['class_id'].'",
-                            "'.$id.'"
-                        )';
-                    mysqli_query($connect, $query);
+                    }
 
                 }
 
@@ -121,6 +123,26 @@ include('includes/header.php');
     <label>
         <input type="file" name="import">
     </label>
+
+    <hr>
+
+    <?php
+
+    $query = 'SELECT *
+        FROM classes
+        ORDER BY name';
+    $result = mysqli_query($connect, $query);
+
+    ?>
+
+    <?php while($class = mysqli_fetch_assoc($result)): ?>
+
+        <label>
+            <input type="checkbox" name="classes[]" value="<?=$class['id']?>">
+            <?=$class['name']?> - <?=CLASS_SEMESTER[$class['semester']]?> <?=$class['year']?>
+        </label>
+
+    <?php endwhile; ?> 
 
     <input type="submit" value="Import">
 

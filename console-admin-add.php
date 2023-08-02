@@ -24,15 +24,13 @@ if(isset($_POST['submit']))
                     last, 
                     github,
                     email,
-                    password,
-                    class_id
+                    password
                 ) VALUES (
                     "'.mysqli_real_escape_string($connect, $_POST['first']).'",
                     "'.mysqli_real_escape_string($connect, $_POST['last']).'",
                     "'.mysqli_real_escape_string($connect, $_POST['github']).'",
                     "'.mysqli_real_escape_string($connect, $_POST['email']).'",
-                    "'.md5($_POST['password']).'",
-                    "'.$_SESSION['admin']['class_id'].'"
+                    "'.md5($_POST['password']).'"
                 )';
             mysqli_query($connect, $query);
 

@@ -6,7 +6,15 @@ include('includes/functions.php');
 
 secure('admin');
 
-define('PAGE_TITLE', 'Edit Task');
+if(isset($_GET['remove']))
+{
+    task_unassign($_GET['id'], $_GET['remove']);
+
+    set_message('Class has been removed!');
+    redirect('console-task-details.php?id='.$_GET['id']);
+}
+
+define('PAGE_TITLE', 'Task Details');
 
 if(isset($_POST['submit']))
 {
@@ -82,37 +90,78 @@ include('includes/header.php');
 
 ?>
 
-<h1>Edit Class</h1>
+<h1>Task Details</h1>
 
 <?php check_message(); ?>
 
 <hr>
 
-<form method="post">
+<label>
+    <small>Name:</small>
+    <br>
+    <?=$record['name']?>
+</label>
 
-    <input type="hidden" name="submit" value="true">
+<label>
+    <small>URL:</small>
+    <br>
+    <a href="<?=$record['url']?>"><?=$record['url']?></a>
+</label>
 
-    <label>
-        Name:
-        <br>
-        <input type="text" name="name" value="<?=$record['name']?>">
-    </label>
+<label>
+    <small>Description:</small>
+    <br>
+    <?=nl2br($record['description'])?>
+</label>
 
-    <label>
-        URL:
-        <br>
-        <input type="url" name="url" value="<?=$record['url']?>">
-    </label>
+<hr>
 
-    <label>
-        Description:
-        <br>
-        <textarea name="description"><?=$record['description']?></textarea>
-    </label>
+<?php 
 
-    <input type="submit" value="Save">
+$query = 'SELECT classes.*,(
+        SELECT COUNT(*)
+        FROM class_student
+        WHERE class_id = classes.id
+    ) AS students
+    FROM classes
+    INNER JOIN class_task
+    ON classes.id = class_task.class_id
+    WHERE task_id = "'.$_GET['id'].'"
+    ORDER BY year, semester, name';
+$result = mysqli_query($connect, $query);
 
-</form>
+?>
+
+<h2>Current Classes</h2>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Class</th>
+        <th>Students</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    <?php while($class = mysqli_fetch_assoc($result)): ?>
+
+        <tr>
+            <td><?=$class['id']?></td>
+            <td>
+                <?=$class['code']?> - <?=$class['name']?>
+                <small>
+                    <br>
+                    <?=CLASS_SEMESTER[$class['semester']]?> - <?=$class['year']?>
+                </small>
+            </td>
+            <td><?=$class['students']?></td>
+            <td><a href="console-class-details.php?id=<?=$class['id']?>">&#9782; Details</a></td>
+            <td><a href="console-task-details.php?id=<?=$_GET['id']?>&remove=<?=$class['id']?>">&#10006; Remove</a></td>
+        </tr>
+
+    <?php endwhile; ?>
+
+</table>
 
 <hr>
 

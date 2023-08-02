@@ -8,13 +8,9 @@ secure('admin');
 
 if(isset($_GET['delete']))
 {
-    $query = 'DELETE FROM class_student
-        WHERE class_id = "'.$_SESSION['admin']['class_id'].'"
-        AND student_id = "'.$_GET['delete'].'"
-        LIMIT 1';
-    mysqli_query($connect, $query);
+    delete_student($_GET['delete']);
 
-    set_message('Student has been removed from class!');
+    set_message('Student has been deleted!');
     redirect('console-student-list.php');
 }
 
@@ -30,11 +26,12 @@ include('includes/header.php');
 
 <?php
 
-$query = 'SELECT students.*
+$query = 'SELECT *,(
+        SELECT COUNT(*)
+        FROM class_student
+        WHERE student_id = students.id
+    ) AS classes
     FROM students
-    INNER JOIN class_student
-    ON students.id = class_student.student_id
-    WHERE class_id = "'.$_SESSION['admin']['class_id'].'"
     ORDER BY last, first';
 $result = mysqli_query($connect, $query);
 
@@ -45,7 +42,9 @@ $result = mysqli_query($connect, $query);
         <th></th>
         <th>ID</th>
         <th>Name</th>
-        <th>Email</th>
+        <th>Classes</th>
+        <th></th>
+        <th></th>
         <th></th>
         <th></th>
     </tr>
@@ -62,6 +61,8 @@ $result = mysqli_query($connect, $query);
             <td>
                 <?=$student['first']?> <?=$student['last']?>
                 <small>
+                    <br>
+                    <a href="mailto:<?=$student['email']?>"><?=$student['email']?></a>
                     <?php if($student['github']): ?>
                         <br>
                         <a href="https://github.com/<?=$student['github']?>/">https://github.com/<?=$student['github']?>/</a>
@@ -72,7 +73,9 @@ $result = mysqli_query($connect, $query);
                     <?php endif; ?>
                 </small>
             </td>
-            <td><a href="mailto:<?=$student['email']?>"><?=$student['email']?></a></td>
+            <td><?=$student['classes']?></td>
+            <td><a href="console-class-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
+            <td><a href="console-student-enroll.php?id=<?=$student['id']?>">&#9755; Enroll</a></td>
             <td><a href="console-student-edit.php?id=<?=$student['id']?>">&#10000; Edit</a></td>
             <td><a href="console-student-list.php?delete=<?=$student['id']?>">&#10006; Delete</a></td>
         </tr>

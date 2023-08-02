@@ -10,32 +10,8 @@ define('PAGE_TITLE', 'Add Student');
 
 if(isset($_POST['submit']))
 {
-    
-    $query = 'SELECT id
-        FROM students
-        WHERE email = "'.mysqli_real_escape_string($connect, $_POST['email']).'"
-        LIMIT 1';
-    $result = mysqli_query($connect, $query);
 
-    if(mysqli_num_rows($result))
-    {
-        
-        $student = mysqli_fetch_assoc($result);
-
-        $query = 'INSERT IGNORE INTO class_student (
-                class_id,
-                student_id
-            ) VALUES (
-                "'.$_SESSION['admin']['class_id'].'",
-                "'.$student['id'].'"
-            )';
-        mysqli_query($connect, $query);
-
-        set_message('Student has been added!', 'success');
-
-    }
-
-    elseif($_POST['first'] && $_POST['last'] && $_POST['email'])
+    if($_POST['first'] && $_POST['last'] && $_POST['email'])
     {
         
         try 
@@ -57,17 +33,6 @@ if(isset($_POST['submit']))
                     "'.mysqli_real_escape_string($connect, $_POST['linkedin']).'",
                     "'.mysqli_real_escape_string($connect, $_POST['email']).'",
                     "'.md5($_POST['password']).'"
-                )';
-            mysqli_query($connect, $query);
-
-            $id = mysqli_insert_id($connect);
-
-            $query = 'INSERT IGNORE INTO class_student (
-                    class_id,
-                    student_id
-                ) VALUES (
-                    "'.$_SESSION['admin']['class_id'].'",
-                    "'.$id.'"
                 )';
             mysqli_query($connect, $query);
 

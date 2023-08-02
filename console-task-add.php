@@ -71,15 +71,15 @@ include('includes/header.php');
     </label>
 
     <label>
-        Description:
-        <br>
-        <textarea name="description"></textarea>
-    </label>
-
-    <label>
         URL:
         <br>
         <input type="url" name="url">
+    </label>
+    
+    <label>
+        Description:
+        <br>
+        <textarea name="description"></textarea>
     </label>
 
     <input type="submit" value="Save">
