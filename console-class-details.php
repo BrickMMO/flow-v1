@@ -15,52 +15,22 @@ if(isset($_GET['remove']))
 
     task_unassign($_GET['id'], $_GET['remove']);
 
-    set_message('Class has been removed!');
-    redirect('console-task-details.php?id='.$_GET['id']);
-}
-elseif(isset($_POST['submit']))
-{
-    
-    if($_POST['name'] && $_POST['description'] && $_POST['url'])
-    {
-
-        try 
-        {
-        
-            $query = 'UPDATE tasks SET 
-                name = "'.mysqli_real_escape_string($connect, $_POST['name']).'",
-                description = "'.mysqli_real_escape_string($connect, $_POST['description']).'",
-                url = "'.mysqli_real_escape_string($connect, $_POST['url']).'"
-                WHERE id = "'.$_GET['id'].'"
-                LIMIT 1';
-            mysqli_query($connect, $query);
-
-            set_message('Task has been edited!', 'success');
-
-        }
-        catch(Exception $e) 
-        {
-
-            set_message('There was an error editing this task!', 'error');
-
-        }
-        
-    }
-    else
-    {
-
-        set_message('There was an error editing this task!', 'error');
-
-    }
-
-    redirect('console-task-list.php');
-
+    set_message('Task has been removed!');
+    redirect('console-class-details.php?id='.$_GET['id']);
 }
 elseif(isset($_GET['id']))
 {
 
-    $query = 'SELECT *
-        FROM tasks
+    $query = 'SELECT *,(
+            SELECT COUNT(*)
+            FROM class_student
+            WHERE class_id = "'.$_GET['id'].'"
+        ) AS students,(
+            SELECT COUNT(*)
+            FROM class_task
+            WHERE class_id = "'.$_GET['id'].'"
+        ) AS tasks
+        FROM classes
         WHERE id = "'.$_GET['id'].'"
         LIMIT 1';
     $result = mysqli_query($connect, $query);
@@ -74,8 +44,8 @@ elseif(isset($_GET['id']))
     else
     {
 
-        set_message('There was an error loading this task!', 'error');
-        redirect('console-task-list.php');    
+        set_message('There was an error loading this class!', 'error');
+        redirect('console-class-list.php');    
 
     }
 
@@ -83,8 +53,8 @@ elseif(isset($_GET['id']))
 else
 {
 
-    set_message('There was an error loading this task!', 'error');
-    redirect('console-task-list.php');
+    set_message('There was an error loading this class!', 'error');
+    redirect('console-class-list.php');
     
 }
 
@@ -92,7 +62,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Task Details</h1>
+<h1>Class Details</h1>
 
 <?php check_message(); ?>
 
@@ -101,113 +71,128 @@ include('includes/header.php');
 <label>
     <small>Name:</small>
     <br>
-    <?=$record['name']?>
+    <?=$record['name']?> - <?=CLASS_SEMESTER[$record['semester']]?> <?=$record['year']?>
 </label>
 
 <label>
-    <small>URL:</small>
+    <small>Tasks:</small>
     <br>
-    <a href="<?=$record['url']?>"><?=$record['url']?></a>
+    <?=$record['tasks']?>
 </label>
 
 <label>
-    <small>Description:</small>
+    <small>Students:</small>
     <br>
-    <?=nl2br($record['description'])?>
+    <?=$record['students']?>
 </label>
 
 <hr>
 
 <?php 
 
-$query = 'SELECT classes.*,class_task.due_at,(
+$query = 'SELECT tasks.*,class_task.due_at,(
         SELECT COUNT(*)
-        FROM class_student
-        WHERE class_id = classes.id
-    ) AS students
-    FROM classes
+        FROM student_task
+        WHERE student_task.task_id = tasks.id
+        AND student_task.class_id = "'.$_GET['id'].'"
+    ) AS submitted
+    FROM tasks
     INNER JOIN class_task
-    ON classes.id = class_task.class_id
-    WHERE task_id = "'.$_GET['id'].'"
-    ORDER BY year, semester, name';
+    ON tasks.id = class_task.task_id
+    WHERE class_id = "'.$_GET['id'].'"
+    ORDER BY due_at, name';
 $result = mysqli_query($connect, $query);
 
 ?>
 
-<h2>Assigned Classes</h2>
+<h2>Assigned Tasks</h2>
 
 <table>
     <tr>
         <th>Class</th>
-        <th>Students</th>
+        <th>Completed</th>
         <th></th>
         <th></th>
     </tr>
 
-    <?php while($class = mysqli_fetch_assoc($result)): ?>
+    <?php while($task = mysqli_fetch_assoc($result)): ?>
 
         <tr>
             <td>
-                <?=$class['code']?> - <?=$class['name']?>
+                <?=$task['name']?>
                 <small>
                     <br>
-                    <?=CLASS_SEMESTER[$class['semester']]?> - <?=$class['year']?>
+                    <?=format_date($task['due_at'])?>
                     <br>
-                    <?=format_date($class['due_at'])?>
+                    <a href="<?=$task['url']?>"><?=$task['url']?></a>
                 </small>
-
-                <?php
-
-                $query = 'SELECT students.*,student_task.created_at
-                    FROM students
-                    INNER JOIN class_student
-                    ON class_student.student_id = students.id
-                    AND class_student.class_id = "'.$class['id'].'"
-                    LEFT JOIN student_task
-                    ON student_task.task_id = "'.$_GET['id'].'"
-                    AND student_task.student_id = students.id
-                    AND student_task.class_id = "'.$class['id'].'"
-                    ORDER BY last, first';
-                $result2 = mysqli_query($connect, $query);
-
-                ?>
-
-                <table>
-                    <tr>
-                        <th class="icon"></th>
-                        <th>Name</th>
-                        <th>Completed</th>
-                        <th></th>   
-                    </tr>
-
-                    <?php while($student = mysqli_fetch_assoc($result2)): ?>
-
-                        <tr>
-                            <td>
-                                <?php if($student['github']): ?>
-                                    <img src="https://github.com/<?=$student['github']?>.png?size=60" width="60">
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?=$student['first']?> <?=$student['last']?>
-                            </td>
-                            <td>
-                                <?php if(isset($student['created_at'])): ?>
-                                    <?=format_date($student['created_at'])?>
-                                <?php endif; ?>
-                            </td>
-                            <td><a href="console-class-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
-                            
-                        </tr>
-
-                    <?php endwhile; ?>
-
-                </table>
-
             </td>
-            <td><?=$class['students']?></td>
-            <td><a href="console-class-details.php?id=<?=$class['id']?>">&#9782; Details</a></td>
-            <td><a href="console-task-details.php?id=<?=$_GET['id']?>&remove=<?=$class['id']?>">&#10006; Remove</a></td>
+            <td><?=$task['submitted']?>/<?=$record['students']?></td>
+            <td><a href="console-task-details.php?id=<?=$task['id']?>">&#9782; Details</a></td>
+            <td><a href="console-class-details.php?id=<?=$_GET['id']?>&remove=<?=$task['id']?>">&#10006; Remove</a></td>
+        </tr>
+
+    <?php endwhile; ?>
+
+</table>
+
+<hr>
+
+<?php
+
+$query = 'SELECT students.*,(
+        SELECT COUNT(*)
+        FROM student_task
+        WHERE student_task.student_id = students.id
+        AND student_task.class_id = "'.$_GET['id'].'"
+    ) AS submitted
+    FROM students
+    INNER JOIN class_student
+    ON class_student.student_id = students.id
+    AND class_student.class_id = "'.$_GET['id'].'"
+    ORDER BY last, first';
+$result2 = mysqli_query($connect, $query);
+
+?>
+
+<h2>Enrolled Students</h2>
+
+<table>
+    <tr>
+        <th class="icon"></th>
+        <th>Name</th>
+        <th>Completed</th>
+        <th></th>   
+        <th></th>
+    </tr>
+
+    <?php while($student = mysqli_fetch_assoc($result2)): ?>
+
+        <tr>
+            <td>
+                <?php if($student['github']): ?>
+                    <img src="https://github.com/<?=$student['github']?>.png?size=60" width="60">
+                <?php endif; ?>
+            </td>
+            <td>
+                <?=$student['first']?> <?=$student['last']?>
+                <small>
+                    <br>
+                    <a href="mailto:<?=$student['email']?>"><?=$student['email']?></a>
+                    <?php if($student['github']): ?>
+                        <br>
+                        <a href="https://github.com/<?=$student['github']?>/">https://github.com/<?=$student['github']?>/</a>
+                    <?php endif; ?>
+                    <?php if($student['linkedin']): ?>
+                        <br>
+                        <a href="https://www.linkedin.com/in/<?=$student['linkedin']?>/">https://www.linkedin.com/in/<?=$student['linkedin']?>/</a>
+                    <?php endif; ?>
+                </small>
+            </td>
+            <td><?=$student['submitted']?>/<?=$record['tasks']?></td>
+            <td><a href="console-student-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
+            <td><a href="console-class-details.php?id=<?=$student['id']?>">&#9782; Remove</a></td>
+            
         </tr>
 
     <?php endwhile; ?>
