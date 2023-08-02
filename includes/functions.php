@@ -160,17 +160,19 @@ function student_enroll($student_id, $class_id)
 
 }
 
-function task_assign($task_id, $class_id)
+function task_assign($task_id, $class_id, $due_at)
 {
 
     global $connect;
 
     $query = 'INSERT IGNORE INTO class_task (
             class_id,
-            task_id
+            task_id,
+            due_at
         ) VALUES (
             "'.$class_id.'",
-            "'.$task_id.'"
+            "'.$task_id.'",
+            "'.$due_at.'"
         )';
     mysqli_query($connect, $query);
 
@@ -190,5 +192,18 @@ function task_unassign($task_id, $class_id)
         WHERE class_id = "'.$class_id.'"
         AND task_id = "'.$task_id.'"';
     mysqli_query($connect, $query);
+
+}
+
+function format_date($date, $format = 'date')
+{
+
+    if(!is_numeric($date)) $date = strtotime($date);
+    
+    switch($format)
+    {
+        case 'datetime': return '';
+        default: return date('F j, Y', $date);
+    }
 
 }

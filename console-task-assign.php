@@ -11,10 +11,10 @@ define('PAGE_TITLE', 'Assign Task');
 if(isset($_POST['submit']))
 {
 
-    if($_POST['class_id'])
+    if($_POST['class_id'] && $_POST['due_at'])
     {
 
-        task_assign($_GET['id'], $_POST['class_id']);
+        task_assign($_GET['id'], $_POST['class_id'], $_POST['due_at']);
 
         set_message('Task has been assigned!', 'success');
 
@@ -75,6 +75,12 @@ include('includes/header.php');
             
         </select>
 
+    </label>
+
+    <label>
+        Due:
+        <br>
+        <input type="date" name="due_at">
     </label>
 
     <input type="submit" value="Assign">

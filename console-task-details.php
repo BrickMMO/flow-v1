@@ -118,7 +118,7 @@ include('includes/header.php');
 
 <?php 
 
-$query = 'SELECT classes.*,(
+$query = 'SELECT classes.*,class_task.due_at,(
         SELECT COUNT(*)
         FROM class_student
         WHERE class_id = classes.id
@@ -132,11 +132,10 @@ $result = mysqli_query($connect, $query);
 
 ?>
 
-<h2>Current Classes</h2>
+<h2>Assigned Classes</h2>
 
 <table>
     <tr>
-        <th>ID</th>
         <th>Class</th>
         <th>Students</th>
         <th></th>
@@ -146,13 +145,63 @@ $result = mysqli_query($connect, $query);
     <?php while($class = mysqli_fetch_assoc($result)): ?>
 
         <tr>
-            <td><?=$class['id']?></td>
             <td>
                 <?=$class['code']?> - <?=$class['name']?>
                 <small>
                     <br>
                     <?=CLASS_SEMESTER[$class['semester']]?> - <?=$class['year']?>
+                    <br>
+                    <?=format_date($class['due_at'])?>
                 </small>
+
+                <?php
+
+                $query = 'SELECT students.*,student_task.created_at
+                    FROM students
+                    INNER JOIN class_student
+                    ON class_student.student_id = students.id
+                    AND class_student.class_id = "'.$class['id'].'"
+                    LEFT JOIN student_task
+                    ON student_task.task_id = "'.$_GET['id'].'"
+                    AND student_task.student_id = students.id
+                    AND student_task.class_id = "'.$class['id'].'"
+                    ORDER BY last, first';
+                $result2 = mysqli_query($connect, $query);
+
+                ?>
+
+                <table>
+                    <tr>
+                        <th class="icon"></th>
+                        <th>Name</th>
+                        <th>Completed</th>
+                        <th></th>   
+                    </tr>
+
+                    <?php while($student = mysqli_fetch_assoc($result2)): ?>
+
+                        <tr>
+                            <td>
+                                <?php if($student['github']): ?>
+                                    <img src="https://github.com/<?=$student['github']?>.png?size=60" width="60">
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?=$student['first']?> <?=$student['last']?>
+                            </td>
+                            <td>
+                                <?php if(isset($student['created_at'])): ?>
+                                    <?=format_date($student['created_at'])?>
+                                <?php endif; ?>
+                            </td>
+                            <td><a href="console-class-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
+                            
+                        </tr>
+
+                    <?php endwhile; ?>
+
+                </table>
+
             </td>
             <td><?=$class['students']?></td>
             <td><a href="console-class-details.php?id=<?=$class['id']?>">&#9782; Details</a></td>
