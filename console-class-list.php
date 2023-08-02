@@ -6,6 +6,8 @@ include('includes/functions.php');
 
 secure('admin');
 
+define('PAGE_TITLE', 'Class List');
+
 if(isset($_GET['select']))
 {
 
@@ -15,7 +17,6 @@ if(isset($_GET['select']))
     redirect('console-class-list.php');
     
 }
-
 elseif(isset($_GET['delete']))
 {
 
@@ -27,8 +28,6 @@ elseif(isset($_GET['delete']))
     redirect('console-class-list.php');
 
 }
-
-define('PAGE_TITLE', 'Class List');
 
 include('includes/header.php');
 

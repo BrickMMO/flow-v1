@@ -6,14 +6,55 @@ include('includes/functions.php');
 
 secure('admin');
 
-define('PAGE_TITLE', 'Task Details');
+define('PAGE_TITLE', 'Class Details');
 
 if(isset($_GET['remove']))
 {
+
+    die();
+
     task_unassign($_GET['id'], $_GET['remove']);
 
     set_message('Class has been removed!');
     redirect('console-task-details.php?id='.$_GET['id']);
+}
+elseif(isset($_POST['submit']))
+{
+    
+    if($_POST['name'] && $_POST['description'] && $_POST['url'])
+    {
+
+        try 
+        {
+        
+            $query = 'UPDATE tasks SET 
+                name = "'.mysqli_real_escape_string($connect, $_POST['name']).'",
+                description = "'.mysqli_real_escape_string($connect, $_POST['description']).'",
+                url = "'.mysqli_real_escape_string($connect, $_POST['url']).'"
+                WHERE id = "'.$_GET['id'].'"
+                LIMIT 1';
+            mysqli_query($connect, $query);
+
+            set_message('Task has been edited!', 'success');
+
+        }
+        catch(Exception $e) 
+        {
+
+            set_message('There was an error editing this task!', 'error');
+
+        }
+        
+    }
+    else
+    {
+
+        set_message('There was an error editing this task!', 'error');
+
+    }
+
+    redirect('console-task-list.php');
+
 }
 elseif(isset($_GET['id']))
 {

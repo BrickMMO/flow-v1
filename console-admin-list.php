@@ -6,6 +6,8 @@ include('includes/functions.php');
 
 secure('admin');
 
+define('PAGE_TITLE', 'Admin List');
+
 if(isset($_GET['delete']))
 {
     $query = 'DELETE FROM admins
@@ -17,8 +19,6 @@ if(isset($_GET['delete']))
     set_message('Admin has been deleted!');
     redirect('console-admin-list.php');
 }
-
-define('PAGE_TITLE', 'Admin List');
 
 include('includes/header.php');
 

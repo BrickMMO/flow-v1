@@ -6,6 +6,8 @@ include('includes/functions.php');
 
 secure('admin');
 
+define('PAGE_TITLE', 'Student List');
+
 if(isset($_GET['delete']))
 {
     delete_student($_GET['delete']);
@@ -13,8 +15,6 @@ if(isset($_GET['delete']))
     set_message('Student has been deleted!');
     redirect('console-student-list.php');
 }
-
-define('PAGE_TITLE', 'Student List');
 
 include('includes/header.php');
 

@@ -6,6 +6,8 @@ include('includes/functions.php');
 
 secure('admin');
 
+define('PAGE_TITLE', 'Task List');
+
 if(isset($_GET['delete']))
 {
     delete_task($_GET['delete']);
@@ -13,8 +15,6 @@ if(isset($_GET['delete']))
     set_message('Task has been deleted!');
     redirect('console-task-list.php');
 }
-
-define('PAGE_TITLE', 'Task List');
 
 include('includes/header.php');
 
