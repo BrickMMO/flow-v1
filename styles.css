@@ -91,4 +91,5 @@ a:active,
 a:hover {
     text-decoration: none;
     color: #ff8e00;
+    white-space: nowrap;
 }

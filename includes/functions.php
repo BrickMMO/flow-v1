@@ -90,4 +90,3 @@ function select($name, $options, $selected = false)
     <?php
 
 }
-

@@ -11,10 +11,44 @@ define('PAGE_TITLE', 'Assign Task');
 if(isset($_POST['submit']))
 {
 
-    die('ASSIGN');
-    
-    set_message('Tasks have been assigned!', 'success');
+    if($_POST['classes'])
+    {
 
+        $query = 'DELETE FROM class_task
+            WHERE class_id NOT IN ('.implode(',', $_POST['classes']).')
+            AND task_id = "'.$_GET['id'].'"';
+        mysqli_query($connect, $query);
+
+        print_r($_POST);
+
+        foreach($_POST['classes'] as $class_id)
+        {
+
+            $query = 'INSERT IGNORE INTO class_task (
+                    class_id,
+                    task_id
+                ) VALUES (
+                    "'.$class_id.'",
+                    "'.$_GET['id'].'"
+                )';
+            mysqli_query($connect, $query);
+
+        }
+
+        set_message('Task has been assigned!', 'success');
+
+    }
+    else
+    {
+
+        $query = 'DELETE FROM class_task
+            WHERE task_id = "'.$_GET['id'].'"';
+        mysqli_query($connect, $query);
+        
+        set_message('Task has been removed from all classes!', 'success');
+
+    }
+    
     redirect('console-task-list.php');
 
 }
@@ -23,7 +57,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Add Task</h1>
+<h1>Assign Task</h1>
 
 <?php check_message(); ?>
 
@@ -35,25 +69,26 @@ include('includes/header.php');
 
     <?php
 
-    $query = 'SELECT tasks.*,class_task.class_id 
-        FROM tasks
+    $query = 'SELECT classes.*,class_task.class_id 
+        FROM classes
         LEFT JOIN class_task
-        ON task_id = tasks.id
-        AND class_id = "'.$_GET['id'].'"
+        ON class_id = classes.id
+        AND task_id = "'.$_GET['id'].'"
         ORDER BY name';
     
     $result = mysqli_query($connect, $query);
 
     ?>
 
-    <?php while($task = mysqli_fetch_assoc($result)): ?>
+    <?php while($class = mysqli_fetch_assoc($result)): ?>
 
         <label>
-            <input type="checkbox" value="<?=$task['id']?>"<?php if($task['class_id']): ?> selected<?php endif; ?>> <?=$task['name']?>
+            <input type="checkbox" name="classes[]" value="<?=$class['id']?>"<?php if($class['class_id']): ?> checked<?php endif; ?>>
+            <?=$class['name']?> - <?=CLASS_SEMESTER[$class['semester']]?> <?=$class['year']?>
         </label>
-
-    <?php endwhile; ?>
     
+    <?php endwhile; ?>
+
     <input type="submit" value="Assign">
 
 </form>
