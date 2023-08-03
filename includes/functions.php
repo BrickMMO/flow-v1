@@ -195,6 +195,24 @@ function task_unassign($task_id, $class_id)
 
 }
 
+
+function student_unenroll($student_id, $class_id)
+{
+
+    global $connect;
+
+    $query = 'DELETE FROM class_student
+        WHERE class_id = "'.$class_id.'"
+        AND student_id = "'.$student_id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM student_task
+        WHERE class_id = "'.$class_id.'"
+        AND student_id = "'.$student_id.'"';
+    mysqli_query($connect, $query);
+
+}
+
 function format_date($date, $format = 'date')
 {
 

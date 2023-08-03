@@ -8,12 +8,14 @@ secure('admin');
 
 define('PAGE_TITLE', 'Task Details');
 
-if(isset($_GET['remove']))
+if(isset($_GET['remove']) && $_GET['type'] == 'task')
 {
+
     task_unassign($_GET['id'], $_GET['remove']);
 
     set_message('Class has been removed!');
     redirect('console-task-details.php?id='.$_GET['id']);
+
 }
 elseif(isset($_GET['id']))
 {
@@ -117,7 +119,7 @@ $result = mysqli_query($connect, $query);
 
                 <?php
 
-                $query = 'SELECT students.*,student_task.created_at
+                $query = 'SELECT students.*,student_task.completed_at
                     FROM students
                     INNER JOIN class_student
                     ON class_student.student_id = students.id
@@ -151,8 +153,8 @@ $result = mysqli_query($connect, $query);
                                 <?=$student['first']?> <?=$student['last']?>
                             </td>
                             <td>
-                                <?php if(isset($student['created_at'])): ?>
-                                    <?=format_date($student['created_at'])?>
+                                <?php if(isset($student['completed_at'])): ?>
+                                    <?=format_date($student['completed_at'])?>
                                 <?php endif; ?>
                             </td>
                             <td><a href="console-class-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
@@ -166,7 +168,7 @@ $result = mysqli_query($connect, $query);
             </td>
             <td><?=$class['students']?></td>
             <td><a href="console-class-details.php?id=<?=$class['id']?>">&#9782; Details</a></td>
-            <td><a href="console-task-details.php?id=<?=$_GET['id']?>&remove=<?=$class['id']?>">&#10006; Remove</a></td>
+            <td><a href="console-task-details.php?id=<?=$_GET['id']?>&remove=<?=$class['id']?>&type=class">&#10006; Remove</a></td>
         </tr>
 
     <?php endwhile; ?>

@@ -8,14 +8,20 @@ secure('admin');
 
 define('PAGE_TITLE', 'Class Details');
 
-if(isset($_GET['remove']))
+if(isset($_GET['remove']) && $_GET['type'] == 'task')
 {
 
-    die();
-
-    task_unassign($_GET['id'], $_GET['remove']);
+    task_unassign($_GET['remove'], $_GET['id']);
 
     set_message('Task has been removed!');
+    redirect('console-class-details.php?id='.$_GET['id']);
+}
+if(isset($_GET['remove']) && $_GET['type'] == 'student')
+{
+
+    student_unenroll($_GET['remove'], $_GET['id']);
+
+    set_message('Student has been removed!');
     redirect('console-class-details.php?id='.$_GET['id']);
 }
 elseif(isset($_GET['id']))
@@ -129,7 +135,7 @@ $result = mysqli_query($connect, $query);
             </td>
             <td><?=$task['submitted']?>/<?=$record['students']?></td>
             <td><a href="console-task-details.php?id=<?=$task['id']?>">&#9782; Details</a></td>
-            <td><a href="console-class-details.php?id=<?=$_GET['id']?>&remove=<?=$task['id']?>">&#10006; Remove</a></td>
+            <td><a href="console-class-details.php?id=<?=$_GET['id']?>&remove=<?=$task['id']?>&type=task">&#10006; Remove</a></td>
         </tr>
 
     <?php endwhile; ?>
@@ -191,7 +197,7 @@ $result2 = mysqli_query($connect, $query);
             </td>
             <td><?=$student['submitted']?>/<?=$record['tasks']?></td>
             <td><a href="console-student-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
-            <td><a href="console-class-details.php?id=<?=$student['id']?>">&#9782; Remove</a></td>
+            <td><a href="console-class-details.php?id=<?=$_GET['id']?>&remove=<?=$student['id']?>&type=student">&#9782; Remove</a></td>
             
         </tr>
 
