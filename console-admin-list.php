@@ -55,7 +55,7 @@ $result = mysqli_query($connect, $query);
                     <img src="https://github.com/<?=$admin['github']?>.png?size=60" width="60">
                 <?php endif; ?>
             </td>
-            <td><?=$admin['id']?></td>
+            <td><?=leading_zeros($admin['id'])?></td>
             <td>
                 <?=$admin['first']?> <?=$admin['last']?>
                 <small>

@@ -51,7 +51,7 @@ $result = mysqli_query($connect, $query);
     <?php while($task = mysqli_fetch_assoc($result)): ?>
 
         <tr>
-            <td><?=$task['id']?></td>
+            <td><?=leading_zeros($task['id'])?></td>
             <td>
                 <?=$task['name']?>
                 <small>

@@ -5,6 +5,10 @@ body, tr, td, th, input, select, textarea {
     font-family: 'Roboto', sans-serif;
 }
 
+table table {
+    font-size: 80%;
+}
+
 #container {
     max-width: 1024px;
     border: 1px solid lightgrey;

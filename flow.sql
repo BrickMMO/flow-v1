@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Aug 03, 2023 at 03:07 AM
+-- Generation Time: Aug 09, 2023 at 01:35 PM
 -- Server version: 5.7.39
 -- PHP Version: 8.2.0
 
@@ -44,7 +44,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `first`, `last`, `github`, `email`, `password`, `status`, `created_at`, `upated_at`) VALUES
-(1, 'Adam', 'Smith', 'codeadamca', 'adam.smith@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 20:07:45', '2023-08-03 03:04:17'),
+(1, 'Adam', 'Smith', 'codeadamca', 'thomasadam83@hotmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 20:07:45', '2023-08-04 20:06:21'),
 (2, 'James', 'Doe', '', 'james.doe@email.ca', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 20:16:12', '2023-08-03 03:04:40');
 
 -- --------------------------------------------------------
@@ -156,9 +156,9 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `first`, `last`, `github`, `linkedin`, `email`, `password`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Adam', 'Smith', 'codeadamca', 'adambenjaminthomas', 'adam.smith@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 19:58:20', '2023-08-03 03:06:54'),
+(1, 'Adam', 'Smith', 'codeadamca', 'adambenjaminthomas', 'thomasadam83@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 19:58:20', '2023-08-04 20:06:42'),
 (2, 'James', 'Smith', NULL, NULL, 'james.smith@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 03:29:21', '2023-08-03 03:05:37'),
-(3, 'Jean', 'LastGray', NULL, NULL, 'jean@address.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 21:22:44', '2023-08-03 03:07:06'),
+(3, 'Jean', 'Gray', '', '', 'jean@address.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 21:22:44', '2023-08-04 20:12:33'),
 (4, 'James', 'Smith', NULL, NULL, 'james@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 21:32:12', '2023-08-03 03:05:46'),
 (6, 'Jake', 'Smith', NULL, NULL, 'jake.smith@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-08-01 21:18:24', '2023-08-01 21:18:24');
 
@@ -276,7 +276,7 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT for table `class_student`
 --
 ALTER TABLE `class_student`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `class_task`
@@ -294,7 +294,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `student_task`

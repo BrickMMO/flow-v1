@@ -68,7 +68,7 @@ $result = mysqli_query($connect, $query);
     <?php while($class = mysqli_fetch_assoc($result)): ?>
 
         <tr>
-            <td><?=$class['id']?></td>
+            <td><?=leading_zeros($class['id'])?></td>
             <td>
                 <?=$class['code']?> - <?=$class['name']?>
                 <small>

@@ -160,6 +160,23 @@ function student_enroll($student_id, $class_id)
 
 }
 
+function student_unenroll($student_id, $class_id)
+{
+
+    global $connect;
+
+    $query = 'DELETE FROM class_student
+        WHERE class_id = "'.$class_id.'"
+        AND student_id = "'.$student_id.'"';
+    mysqli_query($connect, $query);
+
+    $query = 'DELETE FROM student_task
+        WHERE class_id = "'.$class_id.'"
+        AND student_id = "'.$student_id.'"';
+    mysqli_query($connect, $query);
+
+}
+
 function task_assign($task_id, $class_id, $due_at)
 {
 
@@ -195,24 +212,6 @@ function task_unassign($task_id, $class_id)
 
 }
 
-
-function student_unenroll($student_id, $class_id)
-{
-
-    global $connect;
-
-    $query = 'DELETE FROM class_student
-        WHERE class_id = "'.$class_id.'"
-        AND student_id = "'.$student_id.'"';
-    mysqli_query($connect, $query);
-
-    $query = 'DELETE FROM student_task
-        WHERE class_id = "'.$class_id.'"
-        AND student_id = "'.$student_id.'"';
-    mysqli_query($connect, $query);
-
-}
-
 function format_date($date, $format = 'date')
 {
 
@@ -223,5 +222,12 @@ function format_date($date, $format = 'date')
         case 'datetime': return '';
         default: return date('F j, Y', $date);
     }
+
+}
+
+function leading_zeros($number, $length = 5)
+{
+
+    return sprintf('%0'.$length.'d', $number);
 
 }
