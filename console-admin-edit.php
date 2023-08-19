@@ -70,7 +70,7 @@ elseif(isset($_GET['id']))
     if(mysqli_num_rows($result))
     {
 
-        $record = mysqli_fetch_assoc($result);
+        $admin = mysqli_fetch_assoc($result);
 
     }
     else
@@ -107,25 +107,25 @@ include('includes/header.php');
     <label>
         First Name:
         <br>
-        <input type="text" name="first" value="<?=$record['first']?>">
+        <input type="text" name="first" value="<?=$admin['first']?>">
     </label>
 
     <label>
         Last Name:
         <br>
-        <input type="text" name="last" value="<?=$record['last']?>">
+        <input type="text" name="last" value="<?=$admin['last']?>">
     </label>
 
     <label>
         Email:
         <br>
-        <input type="email" name="email" value="<?=$record['email']?>">
+        <input type="email" name="email" value="<?=$admin['email']?>">
     </label>
 
     <label>
         GitHub Username:
         <br>
-        <input type="text" name="github" value="<?=$record['github']?>">
+        <input type="text" name="github" value="<?=$admin['github']?>">
     </label>
 
     <label>

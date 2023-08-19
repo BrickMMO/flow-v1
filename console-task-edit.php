@@ -58,7 +58,7 @@ elseif(isset($_GET['id']))
     if(mysqli_num_rows($result))
     {
 
-        $record = mysqli_fetch_assoc($result);
+        $task = mysqli_fetch_assoc($result);
 
     }
     else
@@ -95,19 +95,19 @@ include('includes/header.php');
     <label>
         Name:
         <br>
-        <input type="text" name="name" value="<?=$record['name']?>">
+        <input type="text" name="name" value="<?=$task['name']?>">
     </label>
 
     <label>
         URL:
         <br>
-        <input type="url" name="url" value="<?=$record['url']?>">
+        <input type="url" name="url" value="<?=$task['url']?>">
     </label>
 
     <label>
         Description:
         <br>
-        <textarea name="description"><?=$record['description']?></textarea>
+        <textarea name="description"><?=$task['description']?></textarea>
     </label>
 
     <input type="submit" value="Save">

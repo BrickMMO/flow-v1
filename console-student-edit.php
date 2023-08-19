@@ -71,7 +71,7 @@ elseif(isset($_GET['id']))
     if(mysqli_num_rows($result))
     {
 
-        $record = mysqli_fetch_assoc($result);
+        $student = mysqli_fetch_assoc($result);
 
     }
     else
@@ -108,31 +108,31 @@ include('includes/header.php');
     <label>
         First Name:
         <br>
-        <input type="text" name="first" value="<?=$record['first']?>">
+        <input type="text" name="first" value="<?=$student['first']?>">
     </label>
 
     <label>
         Last Name:
         <br>
-        <input type="text" name="last" value="<?=$record['last']?>">
+        <input type="text" name="last" value="<?=$student['last']?>">
     </label>
 
     <label>
         Email:
         <br>
-        <input type="email" name="email" value="<?=$record['email']?>">
+        <input type="email" name="email" value="<?=$student['email']?>">
     </label>
 
     <label>
         GitHub Username:
         <br>
-        <input type="text" name="github" value="<?=$record['github']?>">
+        <input type="text" name="github" value="<?=$student['github']?>">
     </label>
 
     <label>
         LinkedIn Username:
         <br>
-        <input type="text" name="linkedin" value="<?=$record['linkedin']?>">
+        <input type="text" name="linkedin" value="<?=$student['linkedin']?>">
     </label>
 
     <label>

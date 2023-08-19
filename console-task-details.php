@@ -29,7 +29,7 @@ elseif(isset($_GET['id']))
     if(mysqli_num_rows($result))
     {
 
-        $record = mysqli_fetch_assoc($result);
+        $task = mysqli_fetch_assoc($result);
 
     }
     else
@@ -62,19 +62,19 @@ include('includes/header.php');
 <label>
     <small>Name:</small>
     <br>
-    <?=$record['name']?>
+    <?=$task['name']?>
 </label>
 
 <label>
     <small>URL:</small>
     <br>
-    <a href="<?=$record['url']?>"><?=$record['url']?></a>
+    <a href="<?=$task['url']?>"><?=$task['url']?></a>
 </label>
 
 <label>
     <small>Description:</small>
     <br>
-    <?=nl2br($record['description'])?>
+    <?=nl2br($task['description'])?>
 </label>
 
 <hr>

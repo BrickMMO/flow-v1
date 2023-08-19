@@ -44,7 +44,7 @@ elseif(isset($_GET['id']))
     if(mysqli_num_rows($result))
     {
 
-        $record = mysqli_fetch_assoc($result);
+        $class = mysqli_fetch_assoc($result);
 
     }
     else
@@ -77,19 +77,19 @@ include('includes/header.php');
 <label>
     <small>Name:</small>
     <br>
-    <?=$record['name']?> - <?=CLASS_SEMESTER[$record['semester']]?> <?=$record['year']?>
+    <?=$class['name']?> - <?=CLASS_SEMESTER[$class['semester']]?> <?=$class['year']?>
 </label>
 
 <label>
     <small>Tasks:</small>
     <br>
-    <?=$record['tasks']?>
+    <?=$class['tasks']?>
 </label>
 
 <label>
     <small>Students:</small>
     <br>
-    <?=$record['students']?>
+    <?=$class['students']?>
 </label>
 
 <hr>
@@ -133,7 +133,7 @@ $result = mysqli_query($connect, $query);
                     <a href="<?=$task['url']?>"><?=$task['url']?></a>
                 </small>
             </td>
-            <td><?=$task['submitted']?>/<?=$record['students']?></td>
+            <td><?=$task['submitted']?>/<?=$class['students']?></td>
             <td><a href="console-task-details.php?id=<?=$task['id']?>">&#9782; Details</a></td>
             <td><a href="console-class-details.php?id=<?=$_GET['id']?>&remove=<?=$task['id']?>&type=task">&#10006; Remove</a></td>
         </tr>
@@ -157,7 +157,7 @@ $query = 'SELECT students.*,(
     ON class_student.student_id = students.id
     AND class_student.class_id = "'.$_GET['id'].'"
     ORDER BY last, first';
-$result2 = mysqli_query($connect, $query);
+$result = mysqli_query($connect, $query);
 
 ?>
 
@@ -172,7 +172,7 @@ $result2 = mysqli_query($connect, $query);
         <th></th>
     </tr>
 
-    <?php while($student = mysqli_fetch_assoc($result2)): ?>
+    <?php while($student = mysqli_fetch_assoc($result)): ?>
 
         <tr>
             <td>
@@ -195,7 +195,7 @@ $result2 = mysqli_query($connect, $query);
                     <?php endif; ?>
                 </small>
             </td>
-            <td><?=$student['submitted']?>/<?=$record['tasks']?></td>
+            <td><?=$student['submitted']?>/<?=$class['tasks']?></td>
             <td><a href="console-student-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
             <td><a href="console-class-details.php?id=<?=$_GET['id']?>&remove=<?=$student['id']?>&type=student">&#9782; Remove</a></td>
             

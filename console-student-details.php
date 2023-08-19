@@ -34,7 +34,7 @@ elseif(isset($_GET['id']))
     if(mysqli_num_rows($result))
     {
 
-        $record = mysqli_fetch_assoc($result);
+        $student = mysqli_fetch_assoc($result);
 
     }
     else
@@ -67,35 +67,35 @@ include('includes/header.php');
 <label>
     <small>Name:</small>
     <br>
-    <?=$record['first']?> <?=$record['last']?>
+    <?=$student['first']?> <?=$student['last']?>
 </label>
 
 <label>
     <small>Email:</small>
     <br>
-    <a href="mailto:<?=$record['email']?>"><?=$record['email']?></a>
+    <a href="mailto:<?=$student['email']?>"><?=$student['email']?></a>
 </label>
 
-<?php if($record['github']): ?>
+<?php if($student['github']): ?>
     <label>
         <small>GitHub:</small>
         <br>
-        <a href="https://github.com/<?=$record['github']?>/">https://github.com/<?=$record['github']?>/</a>
+        <a href="https://github.com/<?=$student['github']?>/">https://github.com/<?=$student['github']?>/</a>
     </label>
 <?php endif; ?>
 
-<?php if($record['linkedin']): ?>
+<?php if($student['linkedin']): ?>
     <label>
         <small>LinkedIn:</small>
         <br>
-        <a href="https://www.linkedin.com/in/<?=$record['linkedin']?>/">https://www.linkedin.com/in/<?=$record['linkedin']?>/</a>
+        <a href="https://www.linkedin.com/in/<?=$student['linkedin']?>/">https://www.linkedin.com/in/<?=$student['linkedin']?>/</a>
     </label>
 <?php endif; ?>
 
 <label>
     <small>Classes:</small>
     <br>
-    <?=$record['classes']?>
+    <?=$student['classes']?>
 </label>
 
 <hr>
