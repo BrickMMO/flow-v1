@@ -20,6 +20,8 @@ This application will intentionally be written in a simplified structure with a 
 - [Flow](https://flow.brickmmo.com)
 - [About Flow](https://brickmmo.github.io/flow-about/)
 - [PHP](https://php.net)
+- [BrickMMO](https://brickmmo.com)
+- [CodeAdam](https://codeadam.ca)
 
 <a href="https://brickmmo.com">
 <img src="https://brickmmo.com/images/brickmmo-logo-horizontal.jpg" width="300">
