@@ -18,7 +18,7 @@ This application will intentionally be written in a simplified structure with a 
 ## Repo Resources
 
 - [Flow](https://flow.brickmmo.com)
-- [About Flow]([https://tasks.brickmmo.ca](https://brickmmo.github.io/flow-about/)
+- [About Flow](https://brickmmo.github.io/flow-about/)
 - [PHP](https://php.net)
 
 <a href="https://brickmmo.com">
