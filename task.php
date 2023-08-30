@@ -58,9 +58,9 @@ include('includes/header.php');
 <h2>Due Date: <?=$task['due_at']?></h2>
 
 <?php if(isset($task['completed_at'])): ?>
-    <p>This assignment was submited on: <?=format_date($task['completed_at'])?></p>
+    <p class="green">This assignment was submited on <?=format_date($task['completed_at'])?></p>
 <?php elseif(difference_date($task['due_at']) < 0): ?>
-    <p>This assignment is: <span class="red">Overdue!</span></p>
+    <p class="red">This assignment is overdue!</span></p>
 <?php endif; ?>
 
 <p>
