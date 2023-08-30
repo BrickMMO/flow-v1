@@ -106,7 +106,7 @@ $query = 'SELECT tasks.*,class_task.due_at,(
     INNER JOIN class_task
     ON tasks.id = class_task.task_id
     WHERE class_id = "'.$_GET['id'].'"
-    ORDER BY due_at, name';
+    ORDER BY due_at ASC, name';
 $result = mysqli_query($connect, $query);
 
 ?>

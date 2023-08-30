@@ -34,6 +34,8 @@ function secure($type = 'student')
 {
     if(!isset($_SESSION[$type]))
     {
+
+        die('error');
         set_message('You must be logged in to view this page!', 'error');
         redirect('/');
     }
@@ -222,6 +224,17 @@ function format_date($date, $format = 'date')
         case 'datetime': return '';
         default: return date('F j, Y', $date);
     }
+
+}
+
+function difference_date($from, $to = false)
+{
+
+    if(!$to) $to = time();
+
+    if(!is_numeric($from)) $from = strtotime($from);
+
+    return $from - $to;
 
 }
 

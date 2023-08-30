@@ -6,7 +6,7 @@ include('includes/functions.php');
 
 secure();
 
-define('PAGE_TITLE', 'Dashboard');
+define('PAGE_TITLE', 'Class Details');
 
 if(isset($_GET['id']))
 {
@@ -30,7 +30,7 @@ if(isset($_GET['id']))
     {
 
         set_message('There was an error loading this class!', 'error');
-        redirect('console-class-list.php');    
+        redirect('dashboard.php');
 
     }
 
@@ -39,7 +39,7 @@ else
 {
 
     set_message('There was an error loading this class!', 'error');
-    redirect('console-class-list.php');
+    redirect('dashboard.php');
 
 }
 
@@ -58,6 +58,38 @@ include('includes/header.php');
 <?php check_message(); ?>
 
 <hr>
+
+
+<?php 
+
+$query = 'SELECT tasks.*,class_task.due_at,student_task.completed_at,class_task.id
+    FROM tasks
+    INNER JOIN class_task
+    ON tasks.id = class_task.task_id
+    LEFT JOIN student_task
+    ON student_task.task_id = tasks.id
+    AND student_task.class_id = "'.$_GET['id'].'"
+    WHERE class_task.class_id = "'.$_GET['id'].'"
+    ORDER BY due_at ASC, name';
+$result = mysqli_query($connect, $query);
+
+?>
+
+<?php while($task = mysqli_fetch_assoc($result)): ?>
+
+    <div class="card">
+        <h2><?=$task['name']?></h2>
+        Due: <?=format_date($task['due_at'])?>
+        <?php if(isset($task['completed_at'])): ?>
+            Submitted: <?=format_date($task['completed_at'])?>
+        <?php elseif(difference_date($task['due_at']) < 0): ?>
+            <span class="red">Overdue!</span>
+        <?php endif; ?>
+        <br>
+        <a href="task.php?id=<?=$task['id']?>">Assignment Details</a>
+    </div>
+    
+<?php endwhile; ?>
 
 <?php
 

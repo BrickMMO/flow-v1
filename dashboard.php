@@ -20,7 +20,7 @@ include('includes/header.php');
 
 <?php
 
-$query = 'SELECT *,(
+$query = 'SELECT classes.*,(
         SELECT COUNT(*)
         FROM class_task
         WHERE class_id = classes.id

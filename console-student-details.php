@@ -147,7 +147,7 @@ $result = mysqli_query($connect, $query);
                     AND student_task.student_id = "'.$_GET['id'].'"
                     AND student_task.class_id = "'.$class['id'].'"
                     WHERE class_task.class_id = "'.$class['id'].'"
-                    ORDER BY due_at';
+                    ORDER BY due_at ASC';
                 $result2 = mysqli_query($connect, $query);
 
                 ?>

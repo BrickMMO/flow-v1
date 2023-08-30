@@ -29,6 +29,10 @@ table table {
   border-bottom: 1px solid #eb062c;
 }
 
+.red {
+  color: red;
+}
+
 .success {
   color: green;
   padding: 5px;
