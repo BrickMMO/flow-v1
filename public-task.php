@@ -48,6 +48,8 @@ include('includes/header.php');
 
 <hr>
 
+<h2>Assignment Details:</h2>
+
 <p>
     <?=nl2br($task['description'])?>
 </p>
