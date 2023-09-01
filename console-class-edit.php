@@ -59,7 +59,7 @@ elseif(isset($_GET['id']))
     if(mysqli_num_rows($result))
     {
 
-        $record = mysqli_fetch_assoc($result);
+        $class = mysqli_fetch_assoc($result);
         
     }
     else
@@ -96,25 +96,25 @@ include('includes/header.php');
     <label>
         Name:
         <br>
-        <input type="text" name="name" value="<?=$record['name']?>">
+        <input type="text" name="name" value="<?=$class['name']?>">
     </label>
 
     <label>
         Code:
         <br>
-        <input type="text" name="code" value="<?=$record['code']?>">
+        <input type="text" name="code" value="<?=$class['code']?>">
     </label>
 
     <label>
         Year:
         <br>
-        <input type="year" name="year" value="<?=$record['year']?>">
+        <input type="year" name="year" value="<?=$class['year']?>">
     </label>
 
     <label>
         Semester:
         <br>
-        <?php select('semester', CLASS_SEMESTER, $record['semester']); ?>
+        <?php select('semester', CLASS_SEMESTER, $class['semester']); ?>
     </label>
 
     <input type="submit" value="Save">

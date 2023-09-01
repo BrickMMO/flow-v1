@@ -11,13 +11,17 @@ define('PAGE_TITLE', 'Task Details');
 if(isset($_GET['id']))
 {
 
-    $query = 'SELECT tasks.*,class_task.due_at
+    $query = 'SELECT tasks.*,
+            class_task.due_at,
+            class_task.class_id,
+            class_task.task_id,
+            student_task.completed_at
         FROM tasks
         INNER JOIN class_task
         ON tasks.id = class_task.task_id
         LEFT JOIN student_task
-        ON student_task.task_id = tasks.id
-        AND student_task.class_id = "'.$_GET['id'].'"
+        ON student_task.task_id = class_task.task_id
+        AND student_task.class_id = class_task.class_id
         WHERE class_task.id = "'.$_GET['id'].'"
         LIMIT 1';
     $result = mysqli_query($connect, $query);
@@ -26,6 +30,27 @@ if(isset($_GET['id']))
     {
 
         $task = mysqli_fetch_assoc($result);
+
+        if(isset($_GET['complete']))
+        {
+
+            $query = 'INSERT IGNORE INTO student_task (
+                    student_id,
+                    task_id,
+                    class_id,
+                    completed_at
+                ) VALUES (
+                    "'.$_SESSION['student']['id'].'",
+                    "'.$task['task_id'].'",
+                    "'.$task['class_id'].'",
+                    NOW()
+                )';
+            mysqli_query($connect, $query);
+
+            set_message('Task has been marked as complete!', 'success');
+            redirect('task.php?id='.$_GET['id']);
+
+        }
         
     }
     else
@@ -58,7 +83,7 @@ include('includes/header.php');
 <h2>Due Date: <?=$task['due_at']?></h2>
 
 <?php if(isset($task['completed_at'])): ?>
-    <p class="green">This assignment was submited on <?=format_date($task['completed_at'])?></p>
+    <p class="green">This assignment was marked as complete on <?=format_date($task['completed_at'])?>.</p>
 <?php elseif(difference_date($task['due_at']) < 0): ?>
     <p class="red">This assignment is overdue!</span></p>
 <?php endif; ?>
@@ -69,9 +94,15 @@ include('includes/header.php');
 
 <a href="<?=$task['url']?>"><?=$task['url']?></a>
 
-<hr>
+<?php if(!isset($task['completed_at'])): ?>
 
-<button href="">Mark as Complete</button>
+    <hr>
+
+    <button onclick="window.location.href='task.php?id=<?=$_GET['id']?>&amp;complete';">
+        Mark as Complete
+    </button>
+    
+<?php endif; ?>
 
 <?php
 
