@@ -42,7 +42,7 @@ if(isset($_POST['submit']))
 
     if(mysqli_num_rows($result))
     {
-
+        
         $admin = mysqli_fetch_assoc($result);
 
         $_SESSION['admin']['id'] = $admin['id'];

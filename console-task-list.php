@@ -74,6 +74,7 @@ $result = mysqli_query($connect, $query);
 
 <div class="right">
 
+    <a href="console-task-import.php">&#9776; Import Tasks</a>
     <a href="console-task-add.php">&#10010; Add Task</a>
 
 </div>

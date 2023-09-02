@@ -22,44 +22,19 @@ if(isset($_POST['submit']))
             if($data[0] != 'First')
             {
 
-                $query = 'SELECT id
-                    FROM students
-                    WHERE email = "'.$data[2].'"
-                    LIMIT 1';
-                $result = mysqli_query($connect, $query);
+                $query = 'INSERT INTO tasks (
+                        name,
+                        description, 
+                        url
+                    ) VALUES (
+                        "'.$data[0].'",
+                        "'.$data[1].'",
+                        "'.$data[2].'"
+                    )';
+                mysqli_query($connect, $query);
+        
+                $id = mysqli_insert_id($connect);
 
-                if(mysqli_num_rows($result))
-                {
-
-                    $student = mysqli_fetch_assoc($result);
-
-                    $id = $student['id'];
-
-                }
-                else
-                {
-
-                    if($data[0] && $data[1] && $data[2])
-                    {
-                    
-                        $query = 'INSERT INTO students (
-                                first,
-                                last, 
-                                email,
-                                password
-                            ) VALUES (
-                                "'.$data[0].'",
-                                "'.$data[1].'",
-                                "'.$data[2].'",
-                                "'.md5('password').'"
-                            )';
-                        mysqli_query($connect, $query);
-                
-                        $id = mysqli_insert_id($connect);
-
-                    }
-
-                }
 
                 if(isset($_POST['classes']))
                 {
@@ -67,7 +42,7 @@ if(isset($_POST['submit']))
                     foreach($_POST['classes'] as $class_id)
                     {
             
-                        student_enroll($id, $class_id);
+                        task_assign($id, $class_id, $data[3]);
             
                     }
 
@@ -77,7 +52,7 @@ if(isset($_POST['submit']))
             
         }
 
-        set_message('Students have been imported!', 'error');
+        set_message('Tasks have been imported!', 'error');
 
     }
     else
@@ -87,7 +62,7 @@ if(isset($_POST['submit']))
         
     }
 
-    redirect('console-student-list.php');
+    redirect('console-tasks-list.php');
 
 }
 
@@ -95,7 +70,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Import Students</h1>
+<h1>Import Tasks</h1>
 
 <?php check_message(); ?>
 
@@ -105,14 +80,16 @@ include('includes/header.php');
 
 <table>
     <tr>
-        <th>First</th>
-        <th>Last</th>
-        <th>Email</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>URL</th>
+        <th>Due Date</th>
     </tr>
     <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john.doe@email.com</td>
+        <td>Accounts</td>
+        <td>Create accounts for GitHub, Stack Overflow, and Discord.</td>
+        <td>https://tasks.brickmmo.com/accounts</td>
+        <td>2023-09-15</td>
     </tr>
 </table>
 
