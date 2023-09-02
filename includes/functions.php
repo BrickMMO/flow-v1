@@ -184,6 +184,8 @@ function task_assign($task_id, $class_id, $due_at)
 
     global $connect;
 
+    $due_at = format_date($due_at, 'mysql');
+
     $query = 'INSERT IGNORE INTO class_task (
             class_id,
             task_id,
@@ -218,10 +220,11 @@ function format_date($date, $format = 'date')
 {
 
     if(!is_numeric($date)) $date = strtotime($date);
-    
+
     switch($format)
     {
         case 'datetime': return '';
+        case 'mysql': return date('Y-m-j', $date);
         default: return date('F j, Y', $date);
     }
 

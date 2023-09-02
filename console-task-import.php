@@ -19,7 +19,7 @@ if(isset($_POST['submit']))
         while($data = fgetcsv($file, 1000, ",")) 
         {
 
-            if($data[0] != 'First')
+            if($data[0] != 'Name')
             {
 
                 $query = 'INSERT INTO tasks (
@@ -62,7 +62,7 @@ if(isset($_POST['submit']))
         
     }
 
-    redirect('console-tasks-list.php');
+    redirect('console-task-list.php');
 
 }
 
