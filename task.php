@@ -70,6 +70,18 @@ else
 
 }
 
+
+$query = 'SELECT classes.*
+    FROM classes
+    INNER JOIN class_student
+    ON classes.id = class_id
+    AND student_id = "'.$_SESSION['student']['id'].'"
+    WHERE classes.id = "'.$task['class_id'].'"
+    LIMIT 1';
+$result = mysqli_query($connect, $query);
+
+$class = mysqli_fetch_assoc($result);
+
 include('includes/header.php');
 
 ?>
@@ -77,6 +89,12 @@ include('includes/header.php');
 <h1><?=$task['name']?></h1>
 
 <?php check_message(); ?>
+
+<hr>
+
+<a href="/dashboard.php">Dashboard</a> |
+<a href="/class.php?id=<?=$class['id']?>"><?=$class['code']?> - <?=$class['name']?></a> | 
+<?=$task['name']?>
 
 <hr>
 

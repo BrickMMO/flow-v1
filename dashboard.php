@@ -53,9 +53,9 @@ $result = mysqli_query($connect, $query);
 
 <h2>Welcome <?=$student['first']?> <?=$student['last']?>,</h2>
 
-<p>You are currently enrolled in <?=number_to_string(mysqli_num_rows($result))?> class<?=mysqli_num_rows($result) != 1 ? 'es' : ''?>.</p>
-
 <?php if(mysqli_num_rows($result)): ?>
+
+    <p>You are currently enrolled in <?=number_to_string(mysqli_num_rows($result))?> class<?=mysqli_num_rows($result) != 1 ? 'es' : ''?>.</p>
         
     <?php while($class = mysqli_fetch_assoc($result)): ?>
 
@@ -75,7 +75,7 @@ $result = mysqli_query($connect, $query);
 
 <?php else: ?>
 
-    <p>Please contact your instructor to have your account enrolled in a class. 
+    <p>Please contact your instructor to have your account enrolled in a class.</p>
 
 <?php endif; ?>    
 

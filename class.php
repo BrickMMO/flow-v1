@@ -47,20 +47,26 @@ include('includes/header.php');
 
 ?>
 
-<?php
-
-
-
-?>
-
 <h1><?=$class['code']?> - <?=$class['name']?> (<?=CLASS_SEMESTER[$class['semester']]?> <?=$class['year']?>)</h1>
 
 <?php check_message(); ?>
 
 <hr>
 
+<a href="/dashboard.php">Dashboard</a> |
+<?=$class['code']?> - <?=$class['name']?>
+
+<hr>
 
 <?php 
+
+$query = 'SELECT *
+    FROM student_task
+    WHERE class_id = "'.$_GET['id'].'"
+    AND student_id = "'.$_SESSION['student']['id'].'"';
+$result = mysqli_query($connect, $query);
+
+$completed = mysqli_num_rows($result);
 
 $query = 'SELECT tasks.*,class_task.due_at,student_task.completed_at,class_task.id
     FROM tasks
@@ -69,27 +75,38 @@ $query = 'SELECT tasks.*,class_task.due_at,student_task.completed_at,class_task.
     LEFT JOIN student_task
     ON student_task.task_id = tasks.id
     AND student_task.class_id = "'.$_GET['id'].'"
+    AND student_id = "'.$_SESSION['student']['id'].'"
     WHERE class_task.class_id = "'.$_GET['id'].'"
     ORDER BY due_at ASC, name';
 $result = mysqli_query($connect, $query);
 
 ?>
 
-<?php while($task = mysqli_fetch_assoc($result)): ?>
+<?php if(mysqli_num_rows($result)): ?>
 
-    <div class="card">
-        <h2><?=$task['name']?></h2>
-        Due: <?=format_date($task['due_at'])?>
-        <?php if(isset($task['completed_at'])): ?>
-            Submitted: <?=format_date($task['completed_at'])?>
-        <?php elseif(difference_date($task['due_at']) < 0): ?>
-            <span class="red">Overdue!</span>
-        <?php endif; ?>
-        <br>
-        <a href="task.php?id=<?=$task['id']?>">Assignment Details</a>
-    </div>
-    
-<?php endwhile; ?>
+    <p>You have <?=number_to_string($completed)?> of <?=number_to_string(mysqli_num_rows($result))?> tasks completed.</p>
+
+    <?php while($task = mysqli_fetch_assoc($result)): ?>
+
+        <div class="card">
+            <h2><?=$task['name']?></h2>
+            Due: <?=format_date($task['due_at'])?>
+            <?php if(isset($task['completed_at'])): ?>
+                Submitted: <?=format_date($task['completed_at'])?>
+            <?php elseif(difference_date($task['due_at']) < 0): ?>
+                <span class="red">Overdue!</span>
+            <?php endif; ?>
+            <br>
+            <a href="task.php?id=<?=$task['id']?>">Assignment Details</a>
+        </div>
+        
+    <?php endwhile; ?>
+
+<?php else: ?>
+
+    <p>You have not yet been assigned any tasks for this course.</p> 
+
+<?php endif; ?>    
 
 <?php
 
