@@ -34,8 +34,6 @@ function secure($type = 'student')
 {
     if(!isset($_SESSION[$type]))
     {
-
-        die('error');
         set_message('You must be logged in to view this page!', 'error');
         redirect('/');
     }
@@ -246,4 +244,48 @@ function leading_zeros($number, $length = 5)
 
     return sprintf('%0'.$length.'d', $number);
 
+}
+
+function fetch_student()
+{
+
+    global $connect;
+
+    if(isset($_SESSION['student']))
+    {
+
+        $query = 'SELECT *
+            FROM students
+            WHERE id = "'.$_SESSION['student']['id'].'"
+            LIMIT 1';
+        $result = mysqli_query($connect, $query);
+
+        return mysqli_fetch_assoc($result);
+
+    }
+
+    return false;
+
+}
+
+function number_to_string($number)
+{
+
+    $strings = array(
+        'zero',
+        'one',
+        'two',
+        'three',
+        'four',
+        'five',
+        'six',
+        'seven',
+        'eight',
+        'nine',
+        'ten',
+        'elevel',
+        'twelve'
+    );
+
+    return $strings[$number];
 }

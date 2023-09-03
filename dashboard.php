@@ -10,6 +10,8 @@ define('PAGE_TITLE', 'Dashboard');
 
 include('includes/header.php');
 
+$student = fetch_student();
+
 ?>
 
 <h1>Student Dashboard</h1>
@@ -49,21 +51,33 @@ $result = mysqli_query($connect, $query);
 
 ?>
 
-<?php while($class = mysqli_fetch_assoc($result)): ?>
+<h2>Welcome <?=$student['first']?> <?=$student['last']?>,</h2>
 
-    <div class="card">
-        <h2><?=$class['code']?> - <?=$class['name']?> (<?=CLASS_SEMESTER[$class['semester']]?> <?=$class['year']?>)</h2>
-        <?php if($class['overdue'] > 0): ?>
-            <p class="red">This class has overdue tasks!
-        <?php endif; ?>
-        <p>
-            Tasks: <?=$class['completed']?>/<?=$class['tasks']?>
-            <br>
-            <a href="class.php?id=<?=$class['id']?>">Work on this Class</a>
-        </p>
-    </div>
+<p>You are currently enrolled in <?=number_to_string(mysqli_num_rows($result))?> class<?=mysqli_num_rows($result) != 1 ? 'es' : ''?>.</p>
 
-<?php endwhile; ?>
+<?php if(mysqli_num_rows($result)): ?>
+        
+    <?php while($class = mysqli_fetch_assoc($result)): ?>
+
+        <div class="card">
+            <h2><?=$class['code']?> - <?=$class['name']?> (<?=CLASS_SEMESTER[$class['semester']]?> <?=$class['year']?>)</h2>
+            <?php if($class['overdue'] > 0): ?>
+                <p class="red">This class has overdue tasks!
+            <?php endif; ?>
+            <p>
+                Tasks: <?=$class['completed']?>/<?=$class['tasks']?>
+                <br>
+                <a href="class.php?id=<?=$class['id']?>">Work on this Class</a>
+            </p>
+        </div>
+
+    <?php endwhile; ?>
+
+<?php else: ?>
+
+    <p>Please contact your instructor to have your account enrolled in a class. 
+
+<?php endif; ?>    
 
 <?php
 
