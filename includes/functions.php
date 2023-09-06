@@ -129,6 +129,17 @@ function delete_task($id)
 
 }
 
+function delete_skill($id)
+{
+
+    global $connect;
+
+    $query = 'DELETE FROM skills
+        WHERE id = "'.$id.'"';
+    mysqli_query($connect, $query);
+    
+}
+
 function delete_student($id)
 {
 

@@ -29,6 +29,9 @@ include('includes/header.php');
         <a href="console-task-list.php">Tasks</a>
     </div>
     <div>
+        <a href="console-skill-list.php">Skills</a>
+    </div>
+    <div>
         <a href="console-admin-list.php">Admins</a>
     </div>
 </div>
