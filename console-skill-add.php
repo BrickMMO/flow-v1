@@ -26,6 +26,30 @@ if(isset($_POST['submit']))
                 )';
             mysqli_query($connect, $query);
 
+            $id = mysqli_insert_id($connect);
+
+            if($_FILES['image'] && $_FILES['image']['error'] == 0)
+            {
+
+                $extension = explode('/', $_FILES['image']['type'])[1];
+
+                if(in_array($extension, array('png', 'gif', 'jpg')))
+                {
+
+                    $contents = file_get_contents($_FILES['image']['tmp_name']);
+                    $contents = base64_encode($contents);
+                    $contents = 'data:image/'.$extension.';base64, '.$contents;
+
+                    $query = 'UPDATE skills SET 
+                        image = "'.$contents.'"
+                        WHERE id = "'.$id.'"
+                        LIMIT 1';    
+                    mysqli_query($connect, $query);
+
+                }
+                
+            }
+
             set_message('Skill has been added!', 'success');
 
         }
@@ -58,7 +82,7 @@ include('includes/header.php');
 
 <hr>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 
     <input type="hidden" name="submit" value="true">
 
@@ -72,6 +96,12 @@ include('includes/header.php');
         URL:
         <br>
         <input type="text" name="url">
+    </label>
+
+    <label>
+        Image:
+        <br>
+        <input type="file" name="image">
     </label>
 
     <input type="submit" value="Save">
