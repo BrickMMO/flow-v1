@@ -26,7 +26,7 @@ if(isset($_POST['submit']))
                 LIMIT 1';
             mysqli_query($connect, $query);
 
-            if(isset($_POST['password']))
+            if(isset($_POST['password']) && $_POST['password'])
             {
 
                 $query = 'UPDATE admins SET 
