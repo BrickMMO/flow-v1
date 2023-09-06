@@ -6,7 +6,7 @@ include('includes/functions.php');
 
 secure();
 
-define('PAGE_TITLE', 'Edit Admin');
+define('PAGE_TITLE', 'My Account');
 
 if(isset($_POST['submit']))
 {
