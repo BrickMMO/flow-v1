@@ -89,10 +89,13 @@ $result = mysqli_query($connect, $query);
     <?php while($task = mysqli_fetch_assoc($result)): ?>
 
         <div class="card">
-            <h2><?=$task['name']?></h2>
-            Due: <?=format_date($task['due_at'])?>
+            <h2>
+                <?php if(isset($task['completed_at'])): ?>&#x2611;<?php else: ?>&#x2610;<?php endif; ?> 
+                <?=$task['name']?>
+            </h2>
+            <strong>Due:</strong> <?=format_date($task['due_at'])?>
             <?php if(isset($task['completed_at'])): ?>
-                Submitted: <?=format_date($task['completed_at'])?>
+                <strong>Submitted:</strong> <?=format_date($task['completed_at'])?>
             <?php elseif(difference_date($task['due_at']) < 0): ?>
                 <span class="red">Overdue!</span>
             <?php endif; ?>

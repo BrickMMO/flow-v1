@@ -86,7 +86,10 @@ include('includes/header.php');
 
 ?>
 
-<h1><?=$task['name']?></h1>
+<h1>
+    <?php if(isset($task['completed_at'])): ?>&#x2611;<?php else: ?>&#x2610;<?php endif; ?> 
+    <?=$task['name']?>
+</h1>
 
 <?php check_message(); ?>
 
