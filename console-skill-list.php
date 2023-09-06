@@ -45,17 +45,21 @@ $result = mysqli_query($connect, $query);
         <th></th>
     </tr>
 
-    <?php while($class = mysqli_fetch_assoc($result)): ?>
+    <?php while($skill = mysqli_fetch_assoc($result)): ?>
 
         <tr>
-            <td><?=leading_zeros($class['id'])?></td>
-            <td>IMAGE</td>
+            <td><?=leading_zeros($skill['id'])?></td>
             <td>
-                <?=$class['name']?>
+                <?php if($skill['image']): ?>
+                    <img src="<?=$skill['image']?>" width="60">
+                <?php endif; ?>
             </td>
-            <td><a href="<?=$class['url']?>"><?=$class['url']?></a></td>
-            <td><a href="console-skill-edit.php?id=<?=$class['id']?>">&#10000; Edit</a></td>
-            <td><a href="console-skill-list.php?delete=<?=$class['id']?>">&#10006; Delete</a></td>
+            <td>
+                <?=$skill['name']?>
+            </td>
+            <td><a href="<?=$skill['url']?>"><?=$skill['url']?></a></td>
+            <td><a href="console-skill-edit.php?id=<?=$skill['id']?>">&#10000; Edit</a></td>
+            <td><a href="console-skill-list.php?delete=<?=$skill['id']?>">&#10006; Delete</a></td>
         </tr>
 
     <?php endwhile; ?>
