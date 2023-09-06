@@ -21,7 +21,8 @@ if(isset($_POST['submit']))
                 first = "'.mysqli_real_escape_string($connect, $_POST['first']).'",
                 last = "'.mysqli_real_escape_string($connect, $_POST['last']).'",
                 email = "'.mysqli_real_escape_string($connect, $_POST['email']).'",
-                github = "'.mysqli_real_escape_string($connect, $_POST['github']).'"
+                github = "'.mysqli_real_escape_string($connect, $_POST['github']).'",
+                linkedin = "'.mysqli_real_escape_string($connect, $_POST['linkedin']).'"
                 WHERE id = "'.$_SESSION['student']['id'].'"
                 LIMIT 1';
             mysqli_query($connect, $query);
@@ -119,6 +120,12 @@ include('includes/header.php');
         GitHub Username:
         <br>
         <input type="text" name="github" value="<?=$student['github']?>">
+    </label>
+
+    <label>
+        LinkedIn Username:
+        <br>
+        <input type="text" name="linkedin" value="<?=$student['linkedin']?>">
     </label>
 
     <label>
