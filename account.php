@@ -4,7 +4,7 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
-secure('admin');
+secure();
 
 define('PAGE_TITLE', 'Edit Admin');
 
@@ -17,33 +17,33 @@ if(isset($_POST['submit']))
         try 
         {
         
-            $query = 'UPDATE admins SET 
+            $query = 'UPDATE students SET 
                 first = "'.mysqli_real_escape_string($connect, $_POST['first']).'",
                 last = "'.mysqli_real_escape_string($connect, $_POST['last']).'",
                 email = "'.mysqli_real_escape_string($connect, $_POST['email']).'",
                 github = "'.mysqli_real_escape_string($connect, $_POST['github']).'"
-                WHERE id = "'.$_GET['id'].'"
+                WHERE id = "'.$_SESSION['student']['id'].'"
                 LIMIT 1';
             mysqli_query($connect, $query);
 
             if(isset($_POST['password']))
             {
 
-                $query = 'UPDATE admins SET 
+                $query = 'UPDATE students SET 
                     password = "'.md5($_POST['password']).'"
-                    WHERE id = "'.$_GET['id'].'"
+                    WHERE id = "'.$_SESSION['student']['id'].'"
                     LIMIT 1';
                 mysqli_query($connect, $query);
 
             }
 
-            set_message('Admin has been edited!', 'success');
+            set_message('Account settings have been edited!', 'success');
 
         }
         catch(Exception $e) 
         {
 
-            set_message('There was an error editing this admin!', 'error');
+            set_message('There was an error editing account settings!', 'error');
 
         }
         
@@ -51,42 +51,35 @@ if(isset($_POST['submit']))
     else
     {
 
-        set_message('There was an error editing this admin!', 'error');
+        set_message('There was an error editing account settings!', 'error');
 
     }
 
-    redirect('console-admin-list.php');
+    redirect('account.php');
 
 }
-elseif(isset($_GET['id']))
+else
 {
 
     $query = 'SELECT *
-        FROM admins
-        WHERE id = "'.$_GET['id'].'"
+        FROM students
+        WHERE id = "'.$_SESSION['student']['id'].'"
         LIMIT 1';
     $result = mysqli_query($connect, $query);
 
     if(mysqli_num_rows($result))
     {
 
-        $admin = mysqli_fetch_assoc($result);
+        $student = mysqli_fetch_assoc($result);
 
     }
     else
     {
 
-        set_message('There was an error loading this admin!', 'error');
+        set_message('There was an error loading this student!', 'error');
         redirect('console-task-list.php');    
 
     }
-
-}
-else
-{
-
-    set_message('There was an error loading this admin!', 'error');
-    redirect('console-task-list.php');
 
 }
 
@@ -94,7 +87,7 @@ include('includes/header.php');
 
 ?>
 
-<h1>Edit Admin</h1>
+<h1>My Account</h1>
 
 <?php check_message(); ?>
 
@@ -107,25 +100,25 @@ include('includes/header.php');
     <label>
         First Name:
         <br>
-        <input type="text" name="first" value="<?=$admin['first']?>">
+        <input type="text" name="first" value="<?=$student['first']?>">
     </label>
 
     <label>
         Last Name:
         <br>
-        <input type="text" name="last" value="<?=$admin['last']?>">
+        <input type="text" name="last" value="<?=$student['last']?>">
     </label>
 
     <label>
         Email:
         <br>
-        <input type="email" name="email" value="<?=$admin['email']?>">
+        <input type="email" name="email" value="<?=$student['email']?>">
     </label>
 
     <label>
         GitHub Username:
         <br>
-        <input type="text" name="github" value="<?=$admin['github']?>">
+        <input type="text" name="github" value="<?=$student['github']?>">
     </label>
 
     <label>
@@ -142,7 +135,7 @@ include('includes/header.php');
 
 <div class="right">
 
-    <a href="console-admin-list.php">&#10006; Cancel</a>
+    <a href="dashboard.php">&#10006; Cancel</a>
 
 </div>
 

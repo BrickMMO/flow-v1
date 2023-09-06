@@ -79,6 +79,17 @@ $result = mysqli_query($connect, $query);
 
 <?php endif; ?>    
 
+<hr>
+
+<div class="panels">
+    <div>
+        <a href="account.php">My Account</a>
+    </div>
+    <div>
+        <a href="skills.php">Skills</a>
+    </div>
+</div>
+
 <?php
 
 include('includes/footer.php');
