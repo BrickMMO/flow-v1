@@ -68,6 +68,19 @@ td {
   margin-top: 10px;
 }
 
+.panels {
+  display: flex;
+  flex: auto;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 10px;
+}
+.panels div {
+  flex: auto;
+  border: 1px solid lightgrey;
+  padding: 10px;
+}
+
 .icon {
   width: 60px;
   text-align: center;

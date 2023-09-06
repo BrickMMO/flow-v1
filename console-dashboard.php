@@ -18,13 +18,21 @@ include('includes/header.php');
 
 <hr>
 
-<a href="console-class-list.php">Classes</a>
-<br>
-<a href="console-student-list.php">Students</a>
-<br>
-<a href="console-task-list.php">Tasks</a>
-<br>
-<a href="console-admin-list.php">Admins</a>
+<div class="panels">
+    <div>
+        <a href="console-class-list.php">Classes</a>
+    </div>
+    <div>
+        <a href="console-student-list.php">Students</a>
+    </div>
+    <div>
+        <a href="console-task-list.php">Tasks</a>
+    </div>
+    <div>
+        <a href="console-admin-list.php">Admins</a>
+    </div>
+</div>
+
 
 <?php
 
