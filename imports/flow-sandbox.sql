@@ -44,8 +44,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `first`, `last`, `github`, `email`, `password`, `status`, `created_at`, `upated_at`) VALUES
-(1, 'Adam', 'Smith', 'codeadamca', 'thomasadam83@hotmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 20:07:45', '2023-08-04 20:06:21'),
-(2, 'James', 'Doe', '', 'james.doe@email.ca', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 20:16:12', '2023-08-03 03:04:40');
+(1, 'Adam', 'Thomas', 'codeadamca', 'admin@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 20:07:45', '2023-08-04 20:06:21');
 
 -- --------------------------------------------------------
 
@@ -112,12 +111,6 @@ CREATE TABLE `class_task` (
 -- Dumping data for table `class_task`
 --
 
-INSERT INTO `class_task` (`id`, `class_id`, `task_id`, `due_at`) VALUES
-(25, 1, 1, '2023-09-15'),
-(26, 1, 3, '2023-09-29'),
-(27, 2, 2, '2023-08-17'),
-(28, 2, 1, '2023-08-30');
-
 -- --------------------------------------------------------
 
 --
@@ -154,13 +147,6 @@ CREATE TABLE `students` (
 --
 -- Dumping data for table `students`
 --
-
-INSERT INTO `students` (`id`, `first`, `last`, `github`, `linkedin`, `email`, `password`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Adam', 'Smith', 'codeadamca', 'adambenjaminthomas', 'thomasadam83@gmail.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 19:58:20', '2023-08-04 20:06:42'),
-(2, 'James', 'Smith', NULL, NULL, 'james.smith@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 03:29:21', '2023-08-03 03:05:37'),
-(3, 'Jean', 'Gray', '', '', 'jean@address.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 21:22:44', '2023-08-04 20:12:33'),
-(4, 'James', 'Smith', NULL, NULL, 'james@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-31 21:32:12', '2023-08-03 03:05:46'),
-(6, 'Jake', 'Smith', NULL, NULL, 'jake.smith@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-08-01 21:18:24', '2023-08-01 21:18:24');
 
 -- --------------------------------------------------------
 

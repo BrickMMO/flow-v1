@@ -44,7 +44,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `first`, `last`, `github`, `email`, `password`, `status`, `created_at`, `upated_at`) VALUES
-(1, 'Adam', 'Smith', 'codeadamca', 'adam.thomas@humber.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 20:07:45', '2023-08-04 20:06:21');
+(1, 'Adam', 'Thomas', 'codeadamca', 'admin@email.com', '5f4dcc3b5aa765d61d8327deb882cf99', 'active', '2023-07-30 20:07:45', '2023-08-04 20:06:21');
 
 -- --------------------------------------------------------
 
@@ -141,6 +141,7 @@ CREATE TABLE `student_task` (
   `completed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
 -- --------------------------------------------------------
 
 --
@@ -156,6 +157,16 @@ CREATE TABLE `tasks` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `classes`
+--
+
+INSERT INTO `tasks` (`id`, `name`, `description`, `url`, `created_at`, `updated_at`) VALUES
+(1, 'GitHub Profile', 'Mauris magna arcu, tincidunt vitae libero vel, scelerisque laoreet quam. Curabitur convallis, arcu non mollis pulvinar.', 'https://github.com/BrickMMO/flow-tasks', '2023-07-31 03:56:29', '2023-07-31 04:08:44'),
+(2, 'Accounts', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec porttitor iaculis mi sed posuere. ', 'https://github.com/BrickMMO/flow-tasks', '2023-07-31 04:03:23', '2023-08-01 23:13:14'),
+(3, 'Repos for Everything', 'Aenean porta, magna euismod eleifend interdum, nisi dui egestas felis, in tristique justo nisi ut sem. Etiam maximus massa a feugiat tincidunt.', 'https://github.com/BrickMMO/flow-tasks', '2023-08-01 23:13:58', '2023-08-01 23:13:58');
+
+-- --------------------------------------------------------
 
 --
 -- Indexes for dumped tables

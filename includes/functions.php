@@ -34,11 +34,6 @@ function secure($type = 'student')
 {
     if(!isset($_SESSION[$type]))
     {
-
-        print_r($_SESSION);
-        echo $type;
-        die('here');
-
         set_message('You must be logged in to view this page!', 'error');
         redirect('/');
     }

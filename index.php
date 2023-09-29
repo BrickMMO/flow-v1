@@ -92,6 +92,20 @@ include('includes/header.php');
 
 <div class="left">
 
+    <h3>Admin Testing Account:</h3>
+    <p>Email: admin@email.com<br>Password: password</p>
+
+    <h3>Student Testing Account:</h3>
+    <p>Email: student1@email.com<br>Password: password</p>
+    <p>Note: There are 10 student accounts, just change the number in the email.</p>
+
+</div>
+
+
+<hr>
+
+<div class="left">
+
     <a href="forgot.php">Forgot Password</a> | <a href="register.php"> Register</a>
 
 </div>
