@@ -298,3 +298,21 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timesheet_entry`
+--
+
+CREATE TABLE `entries` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `text` VARCHAR(255) NOT NULL,
+  `hours` TINYINT NOT NULL,
+  `student_id` INT NOT NULL,
+  `task_id` INT NOT NULL,
+  `completed_at` DATE NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
+
+-- --------------------------------------------------------
