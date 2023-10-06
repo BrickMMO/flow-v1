@@ -92,6 +92,9 @@ $result = mysqli_query($connect, $query);
     <div>
         <a href="questions.php">My Questions</a>
     </div>
+    <div>
+        <a href="timesheets.php">Timesheets</a>
+    </div>
 </div>
 
 <?php
