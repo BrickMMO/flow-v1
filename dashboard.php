@@ -4,6 +4,7 @@ include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
+
 secure();
 
 define('PAGE_TITLE', 'Dashboard');
@@ -87,6 +88,9 @@ $result = mysqli_query($connect, $query);
     </div>
     <div>
         <a href="skills.php">Skills</a>
+    </div>
+    <div>
+        <a href="questions.php">My Questions</a>
     </div>
     <div>
         <a href="timesheets.php">Timesheets</a>
