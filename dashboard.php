@@ -88,6 +88,9 @@ $result = mysqli_query($connect, $query);
     <div>
         <a href="skills.php">Skills</a>
     </div>
+    <div>
+        <a href="timesheets.php">Timesheets</a>
+    </div>
 </div>
 
 <?php
