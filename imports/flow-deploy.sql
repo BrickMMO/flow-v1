@@ -287,7 +287,7 @@ COMMIT;
 -- Table structure for table `timesheet_entry`
 --
 
-CREATE TABLE `timesheet_entries` (
+CREATE TABLE `entries` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `text` VARCHAR(255) NOT NULL,
   `hours` TINYINT NOT NULL,
