@@ -390,7 +390,6 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
-<<<<<<< HEAD
 
 
 --
@@ -451,7 +450,7 @@ ALTER TABLE `skills`
 ALTER TABLE `skills`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
-=======
+
 -- --------------------------------------------------------
 
 --
@@ -469,4 +468,4 @@ CREATE TABLE `entries` (
 ) ENGINE = InnoDB;
 
 -- --------------------------------------------------------
->>>>>>> a5024ec73cc099551725276ae94757a300ea1bbb
+
