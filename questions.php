@@ -6,7 +6,7 @@ include('includes/functions.php');
 
 // secure('admin');
 
-define('PAGE_TITLE', '');
+define('PAGE_TITLE', 'Questions');
 
 include('includes/header.php');
 
