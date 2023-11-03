@@ -34,6 +34,9 @@ include('includes/header.php');
     <div>
         <a href="console-admin-list.php">Admins</a>
     </div>
+    <div>
+        <a href="questions.php">Questions</a>
+    </div>
 </div>
 
 
