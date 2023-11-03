@@ -17,19 +17,8 @@ $query = 'SELECT entries.*, tasks.name AS task_name, students.first AS student_f
             WHERE student_id = "' . $_SESSION['student']['id'] . '"
             AND completed_at = "' . $currentDate . '"
             ';
-// print_r($query);
+
 $result = mysqli_query($connect, $query);
-// print_r($result);
-// if (mysqli_num_rows($result)) {
-
-//     $entries = mysqli_fetch_assoc($result);
-//     print_r($entries);
-// } else {
-
-//     set_message('There was an error loading timesheets entries!', 'error');
-//     redirect('dashboard.php');
-
-// }
 
 ?>
 <table>
@@ -68,6 +57,7 @@ $result = mysqli_query($connect, $query);
     <?php endwhile; ?>
 </table>
 <button>
-    <a href="timesheets_add.php?year=<?= $_GET['year'] ?>&month=<?= $_GET['month'] ?>&day=<?= $_GET['day'] ?>">Add Entry</a>
+    <a href="timesheets_add.php?year=<?= $_GET['year'] ?>&month=<?= $_GET['month'] ?>&day=<?= $_GET['day'] ?>">Add
+        Entry</a>
 </button>
 <?php include('includes/footer.php');
