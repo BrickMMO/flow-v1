@@ -166,3 +166,9 @@ a:hover {
 {
     margin: 5px 0px;
 }
+form textarea
+{
+    word-wrap: break-word;
+    word-break: break-all;
+    font-size: 1.1em;
+}

@@ -14,7 +14,18 @@ include('includes/header.php');
 
 <?php
 
-$query = "SELECT q.id as id ,q.question,q.student_id,q.created_at ,CONCAT(s.first, ' ', s.last) AS name ,COUNT(a.question_id) AS answers FROM questions q JOIN students s ON q.student_id = s.id LEFT JOIN answers AS a ON a.question_id = q.id GROUP BY q.id ORDER BY created_at DESC";
+$query = "SELECT 
+            q.id as id ,
+            q.question,
+            q.student_id,
+            q.created_at ,
+            CONCAT(s.first, ' ', s.last) AS name ,
+            COUNT(a.question_id) AS answers 
+            FROM questions q 
+            JOIN students s ON q.student_id = s.id 
+            LEFT JOIN answers AS a ON a.question_id = q.id 
+            GROUP BY q.id 
+            ORDER BY created_at DESC";
 $result = mysqli_query($connect, $query);
 
 

@@ -9,7 +9,42 @@ include('includes/functions.php');
 define('PAGE_TITLE', 'Answers');
 
 include('includes/header.php');
+$student = fetch_student();
 
+?>
+
+<?php
+    
+    if(isset($_POST['submit']))
+    {        
+        if($_POST['answer'] && $_POST['question_id'] )
+        {    
+            try 
+            {
+                $query = 'INSERT INTO answers (
+                    answer, 
+                    question_id,
+                    student_id,
+                    created_at
+                    ) VALUES ( 
+                        "'.mysqli_real_escape_string($connect, $_POST['answer']).'", 
+                        "'.mysqli_real_escape_string($connect, $_POST['question_id']).'", 
+                        "'.$_SESSION['student']['id'].'", 
+                        current_timestamp()
+                    )';    
+                $solved= mysqli_query($connect, $query);    
+            }
+            catch(Exception $e) 
+            {    
+                set_message('There was an error editing this Answer!', 'error');    
+            }            
+        }
+        else
+        {
+            set_message('There was an error editing this Answer!', 'error');
+    
+        }
+    }   
 ?>
 
 <?php
@@ -37,14 +72,20 @@ $query2 = 'SELECT
                 COUNT(v.answer_id) AS vote  
                 FROM answers AS a 
                 JOIN students AS s ON a.student_id =s.id 
-                LEFT JOIN votes AS v ON a.id= v.answer_id 
+                Left JOIN votes AS v ON a.id= v.answer_id 
                 WHERE question_id ="'.$_GET['id'].'" 
-                GROUP BY v.answer_id 
+                GROUP BY a.id 
                 ORDER BY vote DESC' ;
 
 $result1 = mysqli_query($connect, $query1);
 $result2 =mysqli_query($connect,$query2);
 ?>
+<!-- For preventing resubmission prompt -->
+<script>
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+</script>
 <h1>Question</h1> 
 <!-- to fetch question -->
 <hr>
@@ -64,6 +105,13 @@ $result2 =mysqli_query($connect,$query2);
             <?= $task1["answers"]?> Answers 
         </div>
     </div>
+<!-- post answer -->
+<h2>Post Your Answer</h2>
+<form method="post">
+    <input type="hidden" name="question_id" value="<?=$task1['id'] ?>">
+    <textarea name="answer" rows="14" cols="10" wrap="soft" placeholder="Answer here ........."></textarea>
+    <button type="submit" name="submit">Post Answer</button>
+</form>
 <!-- to fetch answers from student -->
 
 <h2>Answers</h2>
