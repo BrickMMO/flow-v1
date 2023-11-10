@@ -40,7 +40,7 @@ $result = mysqli_query($connect, $query);
             <?= $task["answers"]?> Answers 
         </div>
         <div class="show-answer"> 
-            <a href="answers.php?id=<?=$task['id']?>">Show Answers</a>
+            <a href="question_details.php?id=<?=$task['id']?>">Show Answers</a>
         </div>
     </div>
 <?php endwhile; ?>
