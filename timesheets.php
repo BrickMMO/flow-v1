@@ -1,111 +1,114 @@
 <?php
-define('PAGE_TITLE','Timesheets');
-include('includes/header.php');
+
 include('includes/connect.php');
 include('includes/config.php');
 include('includes/functions.php');
 
-function build_calendar($month,$year) {
+secure();
+define('PAGE_TITLE', 'Timesheets Calendar');
+include('includes/header.php');
+function build_calendar($month, $year)
+{
 
-    // Create array containing abbreviations of days of week.
-    $daysOfWeek = array('S','M','T','W','T','F','S');
+     // Create array containing abbreviations of days of week.
+     $daysOfWeek = array('S', 'M', 'T', 'W', 'T', 'F', 'S');
 
-    // What is the first day of the month in question?
-    $firstDayOfMonth = mktime(0,0,0,$month,1,$year);
+     // What is the first day of the month in question?
+     $firstDayOfMonth = mktime(0, 0, 0, $month, 1, $year);
 
-    // How many days does this month contain?
-    $numberDays = date('t',$firstDayOfMonth);
+     // How many days does this month contain?
+     $numberDays = date('t', $firstDayOfMonth);
 
-    // Retrieve some information about the first day of the
-    // month in question.
-    $dateComponents = getdate($firstDayOfMonth);
+     // Retrieve some information about the first day of the
+     // month in question.
+     $dateComponents = getdate($firstDayOfMonth);
 
-    // What is the name of the month in question?
-    $monthName = $dateComponents['month'];
+     // What is the name of the month in question?
+     $monthName = $dateComponents['month'];
 
-    // What is the index value (0-6) of the first day of the
-    // month in question.
-    $dayOfWeek = $dateComponents['wday'];
+     // What is the index value (0-6) of the first day of the
+     // month in question.
+     $dayOfWeek = $dateComponents['wday'];
 
-    // Create the table tag opener and day headers
+     // Create the table tag opener and day headers
 
-    $preMonth = $month == 1 ? 12 : intval($month) - 1;
-    $preYear = $month == 1 ? intval($year) - 1 : $year;
-    $nextMonth = $month == 12 ? 1 : intval($month) + 1; 
-    $nextYear = $month == 12 ? intval($year) + 1 : $year;
-    $calendar = "<table class='calendar'>";
-    $calendar .= "<div class='calendar-nav' >
-    <a id='prev' href='" . htmlentities($_SERVER['PHP_SELF']) . "?month=" . $preMonth ."&year=" . $preYear ."'>Prev</a>
-    " . $year . 
-    "<a id= 'next' href = '".htmlentities($_SERVER['PHP_SELF']) . "?month=" . $nextMonth ."&year=" . $nextYear ."'>Next</a>
+     $preMonth = $month == 1 ? 12 : intval($month) - 1;
+     $preYear = $month == 1 ? intval($year) - 1 : $year;
+     $nextMonth = $month == 12 ? 1 : intval($month) + 1;
+     $nextYear = $month == 12 ? intval($year) + 1 : $year;
+     $calendar = "<table class='calendar'>";
+     $calendar .= "<div class='calendar-nav' >
+    <a id='prev' href='" . htmlentities($_SERVER['PHP_SELF']) . "?month=" . $preMonth . "&year=" . $preYear . "'>Prev</a>
+    " . $year .
+          "<a id= 'next' href = '" . htmlentities($_SERVER['PHP_SELF']) . "?month=" . $nextMonth . "&year=" . $nextYear . "'>Next</a>
     </div>";
-    $calendar .= "<caption class='calendar-month'>$monthName</caption>";
-    $calendar .= "<tr>";
+     $calendar .= "<caption class='calendar-month'>$monthName</caption>";
+     $calendar .= "<tr>";
 
-    // Create the calendar headers
+     // Create the calendar headers
 
-    foreach($daysOfWeek as $day) {
-         $calendar .= "<th class='header'>$day</th>";
-    } 
+     foreach ($daysOfWeek as $day) {
+          $calendar .= "<th class='header'>$day</th>";
+     }
 
-    // Create the rest of the calendar
+     // Create the rest of the calendar
 
-    // Initiate the day counter, starting with the 1st.
+     // Initiate the day counter, starting with the 1st.
 
-    $currentDay = 1;
+     $currentDay = 1;
 
-    $calendar .= "</tr><tr>";
+     $calendar .= "</tr><tr>";
 
-    // The variable $dayOfWeek is used to
-    // ensure that the calendar
-    // display consists of exactly 7 columns.
+     // The variable $dayOfWeek is used to
+     // ensure that the calendar
+     // display consists of exactly 7 columns.
 
-    if ($dayOfWeek > 0) { 
-         $calendar .= "<td colspan='$dayOfWeek'>&nbsp;</td>"; 
-    }
-    
-    $month = str_pad($month, 2, "0", STR_PAD_LEFT);
- 
-    while ($currentDay <= $numberDays) {
+     if ($dayOfWeek > 0) {
+          $calendar .= "<td colspan='$dayOfWeek'>&nbsp;</td>";
+     }
 
-         // Seventh column (Saturday) reached. Start a new row.
+     $month = str_pad($month, 2, "0", STR_PAD_LEFT);
 
-         if ($dayOfWeek == 7) {
+     while ($currentDay <= $numberDays) {
 
-              $dayOfWeek = 0;
-              $calendar .= "</tr><tr>";
+          // Seventh column (Saturday) reached. Start a new row.
 
-         }
-         
-         $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
-         
-         $date = "$year-$month-$currentDayRel";
+          if ($dayOfWeek == 7) {
 
-         $calendar .= "<td class='day' rel='$date'>$currentDay</td>";
+               $dayOfWeek = 0;
+               $calendar .= "</tr><tr>";
 
-         // Increment counters
+          }
 
-         $currentDay++;
-         $dayOfWeek++;
+          $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
 
-    }
-    
-    
+          $date = "$year-$month-$currentDayRel";
 
-    // Complete the row of the last week in month, if necessary
+          $calendar .= "<td class='day' rel='$date'><a href='" . "timesheets_day.php" . "?year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></td>";
 
-    if ($dayOfWeek != 7) { 
-    
-         $remainingDays = 7 - $dayOfWeek;
-         $calendar .= "<td colspan='$remainingDays'>&nbsp;</td>"; 
+          // Increment counters
 
-    }
-    
-    $calendar .= "</tr>";
+          $currentDay++;
+          $dayOfWeek++;
 
-    $calendar .= "</table>";
+     }
 
-    return $calendar;
+
+
+     // Complete the row of the last week in month, if necessary
+
+     if ($dayOfWeek != 7) {
+
+          $remainingDays = 7 - $dayOfWeek;
+          $calendar .= "<td colspan='$remainingDays'>&nbsp;</td>";
+
+     }
+
+     $calendar .= "</tr>";
+
+     $calendar .= "</table>";
+
+     return $calendar;
 
 }
 
@@ -113,17 +116,17 @@ function build_calendar($month,$year) {
 
 <?php
 
-    $dateComponents = getdate();
+$dateComponents = getdate();
 
-    $month = $dateComponents['mon']; 			     
-    $year = $dateComponents['year'];
-    
-    if (isset($_GET['year']) && isset($_GET['month'])) {
-        $month = $_GET['month'];
-        $year = $_GET['year'];
-    }
+$month = $dateComponents['mon'];
+$year = $dateComponents['year'];
 
-    echo build_calendar($month,$year);
+if (isset($_GET['year']) && isset($_GET['month'])) {
+     $month = $_GET['month'];
+     $year = $_GET['year'];
+}
+
+echo build_calendar($month, $year);
 
 ?>
 
