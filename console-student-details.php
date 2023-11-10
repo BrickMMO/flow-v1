@@ -129,6 +129,9 @@ $result_skill = mysqli_query($connect, $query_skill);
     <?php endwhile; ?>
 </label>
 
+
+<a href="console-student-skills.php?id=<?= $_GET['id'] ?>">More about skill list</a>
+
 <hr>
 
 <h2>Enrolled Classes</h2>
