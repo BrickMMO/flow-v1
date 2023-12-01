@@ -67,6 +67,13 @@ ORDER BY name';
 $result_skill = mysqli_query($connect, $query_skill);
 
 
+
+$query_student_skill_tot_count = 'SELECT MAX(skill_count) AS max_rating_count FROM ( SELECT COUNT(rating) AS skill_count FROM `skill_student` WHERE student_id = "' . $_GET['id'] . '" GROUP BY `skill_id` ) AS subquery;';
+$result_student_skill_tot_count = mysqli_query($connect, $query_student_skill_tot_count);
+
+// Highest Skill Count
+$high_skill_count = implode(mysqli_fetch_assoc($result_student_skill_tot_count));
+
 while ($skill = mysqli_fetch_assoc($result_skill)) :
 ?>
 
@@ -78,10 +85,28 @@ while ($skill = mysqli_fetch_assoc($result_skill)) :
         $query_student_skill = 'SELECT * FROM `skill_student` WHERE student_id= "' . $_GET['id'] . '" AND skill_id= "' . $skill['id'] . '" ORDER BY created_at;';
         $result_student_skill = mysqli_query($connect, $query_student_skill);
 
-        while ($skill_result = mysqli_fetch_assoc(($result_student_skill))) :
-        ?>
-            <?= $skill_result['rating'] ?> ,
-        <?php endwhile;
-        ?>
+        $query_student_skill_count = 'SELECT count(rating) FROM `skill_student` WHERE student_id= "' . $_GET['id'] . '" AND skill_id= "' . $skill['id'] . '" ORDER BY created_at;';
+        $result_student_skill_count = mysqli_query($connect, $query_student_skill_count);
+
+        // Individual
+        $individual_skill_count = implode(mysqli_fetch_assoc($result_student_skill_count));
+
+        if ($individual_skill_count < $high_skill_count) : ?>
+            <?php for ($i = 0; $i < ($high_skill_count - $individual_skill_count); $i++) :
+                echo "0," ?>
+            <?php endfor; ?>
+
+            <?php
+            while ($skill_result = mysqli_fetch_assoc(($result_student_skill))) :
+            ?>
+                <?= $skill_result['rating'] ?>,
+            <?php endwhile; ?>
+        <?php else : ?>
+            <?php
+            while ($skill_result = mysqli_fetch_assoc(($result_student_skill))) :
+            ?>
+                <?= $skill_result['rating'] ?> ,
+            <?php endwhile; ?>
+        <?php endif;  ?>
     </label>
 <?php endwhile; ?>
