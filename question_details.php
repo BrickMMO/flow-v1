@@ -44,7 +44,40 @@ $student = fetch_student();
             set_message('There was an error editing this Answer!', 'error');
     
         }
-    }   
+    } 
+    if (isset($_POST['vote'])) 
+    {
+
+        $query4 =' SELECT 
+                        *
+                        FROM votes
+                        WHERE student_id = "'.$_SESSION['student']['id'].'"
+                        AND answer_id = "'.mysqli_real_escape_string($connect, $_POST['answer_id']).'"
+                ';
+        if(mysqli_num_rows(mysqli_query($connect, $query4))== 0 )
+        {
+            $query3 = 'INSERT INTO votes (
+                answer_id, 
+                student_id
+                ) VALUES (
+                    "'.mysqli_real_escape_string($connect, $_POST['answer_id']).'", 
+                    "'.$_SESSION['student']['id'].'"
+                 )';                    
+            mysqli_query($connect, $query3); 
+        }
+        else
+        {
+            $query5 = 'DELETE FROM `votes` 
+                        WHERE  student_id = "'.$_SESSION['student']['id'].'"
+                        AND answer_id = "'.mysqli_real_escape_string($connect, $_POST['answer_id']).'"
+                    ';
+            mysqli_query($connect ,$query5);
+
+        }
+        
+                   
+           
+    }  
 ?>
 
 <?php
@@ -67,7 +100,6 @@ $query2 = 'SELECT
                 a.question_id ,
                 a.student_id,
                 a.created_at ,
-                s.id ,
                 CONCAT(s.first, " ", s.last) AS name , 
                 COUNT(v.answer_id) AS vote  
                 FROM answers AS a 
@@ -116,6 +148,24 @@ if ( window.history.replaceState ) {
 
 <h2>Answers</h2>
 <?php while($task2 = mysqli_fetch_assoc($result2)): ?>
+    <?php
+    $query4 =' SELECT 
+                        *
+                        FROM votes
+                        WHERE student_id = "'.$_SESSION['student']['id'].'"
+                        AND answer_id = "'.$task2['id'].'"
+                ';
+        if(mysqli_num_rows(mysqli_query($connect, $query4))== 0 )
+        {
+            $bgcolor = "transparent";
+            $color = "black";
+        }
+        else
+        {
+            $bgcolor = "#ff8e00";
+            $color = "white";
+        }
+    ?>
     <div class="question-div" >
         <div class= "profile-image" ></div><?php //Not yet Working?>
         <h3>
@@ -129,6 +179,13 @@ if ( window.history.replaceState ) {
         </div>
         <div class="like" >
             <?= $task2["vote"]?> Votes 
+        </div>
+        <div class="up_vote">
+            <form method="post">
+                <input type="hidden" name="answer_id" value="<?=$task2['id'] ?>">
+                <button type="submit" name="vote" style="background-color: <?php echo $bgcolor; ?>; color: <?php echo $color; ?>;" >Vote</button>
+            </form>
+            
         </div>
     </div>
 <?php endwhile; ?>
