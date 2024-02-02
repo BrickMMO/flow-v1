@@ -300,3 +300,12 @@ function number_to_string($number)
 
     return $strings[$number];
 }
+
+function delete_entry($id)
+{
+    global $connect;
+
+    $query = 'DELETE FROM entries
+        WHERE id = "' . $id . '"';
+    mysqli_query($connect, $query);
+}

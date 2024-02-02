@@ -6,6 +6,14 @@ include('includes/functions.php');
 
 secure();
 define('PAGE_TITLE', 'Timesheets Day');
+
+if (isset($_GET['delete'])) {
+    delete_entry($_GET['delete']);
+
+    set_message('Entry has been deleted!');
+    redirect('timesheets_day.php?year=' . $_GET['year'] . "&month=" . $_GET['month'] . "&day=" . $_GET['day']);
+}
+
 include('includes/header.php');
 
 $currentDate = $_GET['year'] . "-" . $_GET['month'] . "-" . $_GET['day'];
@@ -21,6 +29,8 @@ $query = 'SELECT entries.*, tasks.name AS task_name, students.first AS student_f
 $result = mysqli_query($connect, $query);
 
 ?>
+<h1>Timesheets: Entries</h1>
+<?php check_message(); ?>
 <table>
     <tr>
         <th>Entry ID</th>
@@ -29,7 +39,7 @@ $result = mysqli_query($connect, $query);
         <th>Hours</th>
         <th>Description</th>
         <th>Completed At</th>
-
+        <th>Action</th>
     </tr>
     <?php while ($entries = mysqli_fetch_assoc($result)): ?>
 
@@ -51,6 +61,11 @@ $result = mysqli_query($connect, $query);
             </td>
             <td>
                 <?= $entries['completed_at'] ?><br>
+            </td>
+            <td>
+                <a
+                    href="timesheets_day.php?delete=<?= $entries['id'] . "&year=" . $_GET['year'] . "&month=" . $_GET['month'] . "&day=" . $_GET['day'] ?>">&#10006;
+                    Delete</a><br>
             </td>
         </tr>
 
