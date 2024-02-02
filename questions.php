@@ -61,6 +61,10 @@ $result = mysqli_query($connect, $query);
  
 
 <hr>
+<div>
+    To Ask a Question <a href="questions_new.php">Click Here</a>
+
+</div>
 <?php while($task = mysqli_fetch_assoc($result)): ?>
     <div class="question-div" >
         <div class= "profile-image" ></div><?php //Not yet Working?>

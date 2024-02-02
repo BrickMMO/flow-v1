@@ -298,19 +298,20 @@ CREATE TABLE `questions` (
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_id` (`student_id`);
+  ADD PRIMARY KEY (`id`);
+  -- ADD KEY `student_id` (`student_id`);
 
---
+--Auto increment on questions table
+ALTER TABLE `questions` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 -- Constraints for dumped tables
 --
 
 --
 -- Constraints for table `questions`
 --
-ALTER TABLE `questions`
-  ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON UPDATE CASCADE;
-COMMIT;
+-- ALTER TABLE `questions`
+--   ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON UPDATE CASCADE;
+-- COMMIT;
 
 -- --------------------------------------------------------
 
@@ -334,9 +335,12 @@ CREATE TABLE `answers` (
 -- Indexes for table `answers`
 --
 ALTER TABLE `answers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_id` (`student_id`),
-  ADD KEY `question_id` (`question_id`);
+  ADD PRIMARY KEY (`id`);
+  -- ADD KEY `student_id` (`student_id`),
+  -- ADD KEY `question_id` (`question_id`);
+
+-- auto increment answers table
+ALTER TABLE `answers` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -345,10 +349,10 @@ ALTER TABLE `answers`
 --
 -- Constraints for table `answers`
 --
-ALTER TABLE `answers`
-  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON UPDATE CASCADE;
-COMMIT;
+-- ALTER TABLE `answers`
+--   ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON UPDATE CASCADE,
+--   ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON UPDATE CASCADE;
+-- COMMIT;
 
 -- --------------------------------------------------------
 
@@ -370,9 +374,9 @@ CREATE TABLE `votes` (
 -- Indexes for table `votes`
 --
 ALTER TABLE `votes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `answer_id` (`answer_id`),
-  ADD KEY `student_id` (`student_id`);
+  ADD PRIMARY KEY (`id`);
+  -- ADD KEY `answer_id` (`answer_id`),
+  -- ADD KEY `student_id` (`student_id`);
 
 --
 -- Constraints for dumped tables
@@ -380,11 +384,11 @@ ALTER TABLE `votes`
 
 --
 -- Constraints for table `votes`
---
-ALTER TABLE `votes`
-  ADD CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`id`),
-  ADD CONSTRAINT `votes_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
-COMMIT;
+-- 
+-- ALTER TABLE `votes`
+--   ADD CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`id`),
+--   ADD CONSTRAINT `votes_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
+-- COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
