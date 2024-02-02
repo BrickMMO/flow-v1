@@ -24,6 +24,7 @@ $query = 'SELECT entries.*, tasks.name AS task_name, students.first AS student_f
             JOIN students ON entries.student_id = students.id
             WHERE student_id = "' . $_SESSION['student']['id'] . '"
             AND completed_at = "' . $currentDate . '"
+            AND deleted_at IS NULL
             ';
 
 $result = mysqli_query($connect, $query);
