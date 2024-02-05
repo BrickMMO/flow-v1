@@ -484,6 +484,7 @@ CREATE TABLE `entries` (
   `student_id` INT NOT NULL,
   `task_id` INT NOT NULL,
   `completed_at` DATE NOT NULL,
+  `deleted_at` DATE,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 

@@ -113,7 +113,8 @@ function build_calendar($month, $year)
 }
 
 ?>
-
+<h1>Timesheets: Calendar</h1>
+<?php check_message(); ?>
 <?php
 
 $dateComponents = getdate();

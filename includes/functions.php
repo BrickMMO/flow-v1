@@ -300,3 +300,17 @@ function number_to_string($number)
 
     return $strings[$number];
 }
+
+function delete_entry($id)
+{
+    global $connect;
+    
+    // Use the current date and time in a format compatible with MySQL DATETIME
+    $currentDateTime = date("Y-m-d H:i:s");
+
+    // Instead of directly deleting the entry, update the 'deleted_at' column
+    $query = 'UPDATE entries
+        SET deleted_at = "' . $currentDateTime . '"
+        WHERE id = "' . $id . '"';
+    mysqli_query($connect, $query);
+}
