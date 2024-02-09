@@ -6,8 +6,18 @@ include('includes/functions.php');
 
 secure();
 define('PAGE_TITLE', 'Timesheets Calendar');
+$query = 'SELECT completed_at , sum(hours) as total_hours 
+          FROM `entries` 
+          WHERE deleted_at IS NULL
+          Group by student_id, completed_at 
+
+          having student_id="' . $_SESSION['student']['id'] . '"
+          
+            ';
+$result = mysqli_query($connect, $query);
+
 include('includes/header.php');
-function build_calendar($month, $year)
+function build_calendar($month, $year,$result)
 {
 
      // Create array containing abbreviations of days of week.
@@ -83,8 +93,19 @@ function build_calendar($month, $year)
           $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
 
           $date = "$year-$month-$currentDayRel";
+          foreach($result as $row){
+               if($date == $row['completed_at']){
+                    $total = $row['total_hours'];
+                    break;
+               }
+               else{
+                    $total=0;
 
-          $calendar .= "<td class='day' rel='$date'><a href='" . "timesheets_day.php" . "?year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></td>";
+               }
+               
+          }
+          $calendar .= "<td class='day' rel='$date'><a href='" . "timesheets_day.php" . "?year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></br>Total Hours:".$total." </td>";
+          
 
           // Increment counters
 
@@ -127,7 +148,7 @@ if (isset($_GET['year']) && isset($_GET['month'])) {
      $year = $_GET['year'];
 }
 
-echo build_calendar($month, $year);
+echo build_calendar($month, $year,$result);
 
 ?>
 
