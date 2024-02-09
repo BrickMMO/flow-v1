@@ -10,10 +10,7 @@ $query = 'SELECT completed_at , sum(hours) as total_hours
           FROM `entries` 
           WHERE deleted_at IS NULL
           Group by student_id, completed_at 
-
-          having student_id="' . $_SESSION['student']['id'] . '"
-          
-            ';
+          having student_id="' . $_SESSION['student']['id'] . '" ';
 $result = mysqli_query($connect, $query);
 
 include('includes/header.php');
