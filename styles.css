@@ -141,6 +141,7 @@ a:hover {
     white-space: nowrap;
 }
 
+/* For timesheets.php */
 .calendar-nav {
     display: flex;
     justify-content: space-between;
@@ -153,6 +154,13 @@ a:hover {
     margin-bottom: 10px;
     font-weight: 700;
 }
+
+.console-timesheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* for question.php */
 .question-div
 {
