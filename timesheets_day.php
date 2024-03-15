@@ -37,7 +37,7 @@ try {
 <h1>Timesheets: Entries</h1>
 <?php check_message(); ?>
 <div>
-    <a href="timesheets.php">Back to calendar</a>
+    <a href="timesheets.php">Back To Calendar</a>
 </div>
 <table>
     <tr>
