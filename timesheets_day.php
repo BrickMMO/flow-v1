@@ -27,11 +27,18 @@ $query = 'SELECT entries.*, tasks.name AS task_name, students.first AS student_f
             AND deleted_at IS NULL
             ';
 
-$result = mysqli_query($connect, $query);
+try {
+    $result = mysqli_query($connect, $query);
+} catch (Exception $e) {
+    set_message('There was an error fetching entries!', 'error');
+}
 
 ?>
 <h1>Timesheets: Entries</h1>
 <?php check_message(); ?>
+<div>
+    <a href="timesheets.php">Back to calendar</a>
+</div>
 <table>
     <tr>
         <th>Entry ID</th>

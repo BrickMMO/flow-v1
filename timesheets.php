@@ -11,7 +11,11 @@ $query = 'SELECT completed_at , sum(hours) as total_hours
           WHERE deleted_at IS NULL
           Group by student_id, completed_at 
           having student_id="' . $_SESSION['student']['id'] . '" ';
-$entries_result = mysqli_query($connect, $query);
+try {
+     $entries_result = mysqli_query($connect, $query);
+} catch (Exception $e) {
+     set_message('There was an error fetching entries!', 'error');
+}
 
 include('includes/header.php');
 function build_calendar($month, $year, $entries_result)
