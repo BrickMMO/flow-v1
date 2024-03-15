@@ -5,7 +5,7 @@ include('includes/config.php');
 include('includes/functions.php');
 
 secure();
-define('PAGE_TITLE', 'Timesheets Day');
+define('PAGE_TITLE', 'Timesheets: Day View');
 
 if (isset($_GET['delete'])) {
     delete_entry($_GET['delete']);

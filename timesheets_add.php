@@ -4,7 +4,7 @@ include('includes/config.php');
 include('includes/functions.php');
 
 secure();
-define('PAGE_TITLE', 'Timesheets Add');
+define('PAGE_TITLE', 'Timesheets: Add Entry');
 include('includes/header.php');
 
 $currentDate = $_GET['year'] . "-" . $_GET['month'] . "-" . $_GET['day'];
