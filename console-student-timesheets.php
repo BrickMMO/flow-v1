@@ -6,7 +6,7 @@ include('includes/functions.php');
 
 secure('admin');
 
-define('PAGE_TITLE', 'Student List');
+define('PAGE_TITLE', 'Timesheets: Calendar View');
 
 include('includes/header.php');
 $student_id = $_GET['id'];
@@ -29,7 +29,7 @@ $last_name = $student['last'];
 ?>
 
 <?php
-function build_calendar($month, $year, $result)
+function build_calendar($month, $year, $entries_result)
 {
 
   // Create array containing abbreviations of days of week.
@@ -102,11 +102,14 @@ function build_calendar($month, $year, $result)
 
     }
 
+    // Make sure single digit days are preceded with a 0, e.g. 01, 02, 03
+    // While double digit days remain the same, e.g. 10, 11, 12
     $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
 
     $date = "$year-$month-$currentDayRel";
+    // Default value for total hours set to 0 in case of no entries for the day
     $total = 0;
-    foreach ($result as $row) {
+    foreach ($entries_result as $row) {
       if ($date == $row['completed_at']) {
         $total = $row['total_hours'];
         break;
@@ -114,12 +117,13 @@ function build_calendar($month, $year, $result)
         $total = 0;
       }
     }
-    $calendar .= "<td class='day' rel='$date'><a href='" . "timesheets_day.php" . "?year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></br>Total Hours: " . "<strong style='font-size: 1.2rem;''>" . $total . "</strong>" .  " </td>";
-    // Increment counters
+    // Add a day to the calendar
+    // The query parameter are student id, year, month, day
+    $calendar .= "<td class='day' rel='$date'><a href='" . "console-student-timesheets-day.php" . "?&id=" . $_GET['id'] . "&year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></br>Total Hours: " . "<strong style='font-size: 1.2rem;''>" . $total . "</strong>" . " </td>";
 
+    // Increment counters
     $currentDay++;
     $dayOfWeek++;
-
   }
 
 
@@ -143,7 +147,9 @@ function build_calendar($month, $year, $result)
 ?>
 <div class="console-timesheet-header">
   <h1>Timesheets: Calendar View</h1>
-  <h1><?= $first_name . " " . $last_name ?></h1>
+  <h1>
+    <?= $first_name . " " . $last_name ?>
+  </h1>
 </div>
 <?php check_message(); ?>
 <?php
