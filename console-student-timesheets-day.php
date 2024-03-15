@@ -38,6 +38,9 @@ try {
   </h1>
 </div>
 <?php check_message(); ?>
+<div>
+  <a href=<?= "console-student-timesheets.php?id=" . $student_id ?>>Back To Calendar</a>
+</div>
 <table>
   <tr>
     <th>Entry ID</th>

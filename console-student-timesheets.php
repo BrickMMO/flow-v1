@@ -170,6 +170,9 @@ function build_calendar($month, $year, $entries_result, $full_name)
   </h1>
 </div>
 <?php check_message(); ?>
+<div>
+  <a href="console-student-list.php">Back To Student List</a>
+</div>
 <?php
 
 $dateComponents = getdate();
