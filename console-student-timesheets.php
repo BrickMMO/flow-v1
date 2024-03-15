@@ -17,19 +17,28 @@ WHERE deleted_at IS NULL
 GROUP BY student_id, completed_at
 HAVING student_id = ' . $student_id . '';
 
-$entries_result = mysqli_query($connect, $entries_query);
+try {
+  $entries_result = mysqli_query($connect, $entries_query);
+} catch (Exception $e) {
+  set_message('There was an error fetching entries!', 'error');
+}
 
 $student_query = 'SELECT * FROM students WHERE id = ' . $student_id . '';
-$student_result = mysqli_query($connect, $student_query);
+try {
+  $student_result = mysqli_query($connect, $student_query);
+} catch (Exception $e) {
+  set_message('There was an error fetching student data!', 'error');
+}
 
 // get first row from the result
 $student = mysqli_fetch_assoc($student_result);
 $first_name = $student['first'];
 $last_name = $student['last'];
+$full_name = $first_name . " " . $last_name;
 ?>
 
 <?php
-function build_calendar($month, $year, $entries_result)
+function build_calendar($month, $year, $entries_result, $full_name)
 {
 
   // Create array containing abbreviations of days of week.
@@ -105,8 +114,8 @@ function build_calendar($month, $year, $entries_result)
     // Make sure single digit days are preceded with a 0, e.g. 01, 02, 03
     // While double digit days remain the same, e.g. 10, 11, 12
     $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
-
     $date = "$year-$month-$currentDayRel";
+
     // Default value for total hours set to 0 in case of no entries for the day
     $total = 0;
     foreach ($entries_result as $row) {
@@ -117,9 +126,18 @@ function build_calendar($month, $year, $entries_result)
         $total = 0;
       }
     }
+
     // Add a day to the calendar
     // The query parameter are student id, year, month, day
-    $calendar .= "<td class='day' rel='$date'><a href='" . "console-student-timesheets-day.php" . "?&id=" . $_GET['id'] . "&year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></br>Total Hours: " . "<strong style='font-size: 1.2rem;''>" . $total . "</strong>" . " </td>";
+    $calendar .= "<td class='day' rel='$date'><a href='"
+      . "console-student-timesheets-day.php"
+      . "?&id=" . $_GET['id']
+      . "&full_name=" . $full_name
+      . "&year=" . $year
+      . "&month=" . $month
+      . "&day=" . $currentDay
+      . "'>$currentDay</a></br>Total Hours: "
+      . "<strong style='font-size: 1.2rem;''>" . $total . "</strong>" . " </td>";
 
     // Increment counters
     $currentDay++;
@@ -148,7 +166,7 @@ function build_calendar($month, $year, $entries_result)
 <div class="console-timesheet-header">
   <h1>Timesheets: Calendar View</h1>
   <h1>
-    <?= $first_name . " " . $last_name ?>
+    <?= $full_name ?>
   </h1>
 </div>
 <?php check_message(); ?>
@@ -164,7 +182,7 @@ if (isset($_GET['year']) && isset($_GET['month'])) {
   $year = $_GET['year'];
 }
 
-echo build_calendar($month, $year, $entries_result);
+echo build_calendar($month, $year, $entries_result, $full_name);
 
 ?>
 <?php include('includes/footer.php');
