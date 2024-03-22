@@ -301,7 +301,7 @@ ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`);
   -- ADD KEY `student_id` (`student_id`);
 
---Auto increment on questions table
+-- Auto increment on questions table
 ALTER TABLE `questions` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 -- Constraints for dumped tables
 --
@@ -468,6 +468,7 @@ CREATE TABLE `entries` (
   `student_id` INT NOT NULL,
   `task_id` INT NOT NULL,
   `completed_at` DATE NOT NULL,
+  `deleted_at` DATE,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
