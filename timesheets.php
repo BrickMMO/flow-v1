@@ -5,9 +5,20 @@ include('includes/config.php');
 include('includes/functions.php');
 
 secure();
-define('PAGE_TITLE', 'Timesheets Calendar');
+define('PAGE_TITLE', 'Timesheets: Calendar View');
+$query = 'SELECT completed_at , sum(hours) as total_hours 
+          FROM `entries` 
+          WHERE deleted_at IS NULL
+          Group by student_id, completed_at 
+          having student_id="' . $_SESSION['student']['id'] . '" ';
+try {
+     $entries_result = mysqli_query($connect, $query);
+} catch (Exception $e) {
+     set_message('There was an error fetching entries!', 'error');
+}
+
 include('includes/header.php');
-function build_calendar($month, $year)
+function build_calendar($month, $year, $entries_result)
 {
 
      // Create array containing abbreviations of days of week.
@@ -80,11 +91,24 @@ function build_calendar($month, $year)
 
           }
 
+          // Make sure single digit days are preceded with a 0, e.g. 01, 02, 03
+          // While double digit days remain the same, e.g. 10, 11, 12
           $currentDayRel = str_pad($currentDay, 2, "0", STR_PAD_LEFT);
-
           $date = "$year-$month-$currentDayRel";
 
-          $calendar .= "<td class='day' rel='$date'><a href='" . "timesheets_day.php" . "?year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></td>";
+          // Default value for total hours set to 0 in case of no entries for the day
+          $total = 0;
+          foreach ($entries_result as $row) {
+               if ($date == $row['completed_at']) {
+                    $total = $row['total_hours'];
+                    break;
+               } else {
+                    $total = 0;
+
+               }
+          }
+          $calendar .= "<td class='day' rel='$date'><a href='" . "timesheets_day.php" . "?year=" . $year . "&month=" . $month . "&day=" . $currentDay . "'>$currentDay</a></br>Total Hours: " . "<strong style='font-size: 1.2rem;''>" . $total . "</strong>" . " </td>";
+
 
           // Increment counters
 
@@ -127,7 +151,7 @@ if (isset($_GET['year']) && isset($_GET['month'])) {
      $year = $_GET['year'];
 }
 
-echo build_calendar($month, $year);
+echo build_calendar($month, $year, $entries_result);
 
 ?>
 

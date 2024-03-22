@@ -4,7 +4,7 @@ include('includes/config.php');
 include('includes/functions.php');
 
 secure();
-define('PAGE_TITLE', 'Timesheets Add');
+define('PAGE_TITLE', 'Timesheets: Add Entry');
 include('includes/header.php');
 
 $currentDate = $_GET['year'] . "-" . $_GET['month'] . "-" . $_GET['day'];
@@ -62,7 +62,7 @@ $result = mysqli_query($connect, $query);
   <label for="date">Date:</label>
   <input type="date" name="entry_date" value="<?= $formattedDate ?>"><br><br>
   <label for="hours">Hours:</label>
-  <input type="number" id="hours" name="hours" min="1"><br><br>
+  <input type="number" id="hours" name="hours" min="1" max="24"><br><br>
   <label for="description">Description</label>
   <textarea name="description" maxlength="255"></textarea>
   <label for="task">Task</label>
