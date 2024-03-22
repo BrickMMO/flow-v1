@@ -47,6 +47,7 @@ $result = mysqli_query($connect, $query);
         <th></th>
         <th></th>
         <th></th>
+        <th></th>
     </tr>
 
     <?php while($student = mysqli_fetch_assoc($result)): ?>
@@ -75,6 +76,7 @@ $result = mysqli_query($connect, $query);
             </td>
             <td><?=$student['classes']?></td>
             <td><a href="console-student-details.php?id=<?=$student['id']?>">&#9782; Details</a></td>
+            <td><a href="console-student-timesheets.php?id=<?=$student['id']?>">&#9873; Timesheets</a></td>
             <td><a href="console-student-enroll.php?id=<?=$student['id']?>">&#9755; Enroll</a></td>
             <td><a href="console-student-edit.php?id=<?=$student['id']?>">&#10000; Edit</a></td>
             <td><a href="console-student-list.php?delete=<?=$student['id']?>">&#10006; Delete</a></td>
