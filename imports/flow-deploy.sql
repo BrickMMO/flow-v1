@@ -287,6 +287,7 @@ CREATE TABLE `questions` (
   `id` int(11) NOT NULL,
   `question` varchar(255) NOT NULL,
   `student_id` int(11) DEFAULT NULL,
+  `admin_id` int(40) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -299,10 +300,11 @@ CREATE TABLE `questions` (
 --
 ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`);
-  -- ADD KEY `student_id` (`student_id`);
 
 -- Auto increment on questions table
-ALTER TABLE `questions` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `questions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+COMMIT;
 -- Constraints for dumped tables
 --
 
@@ -324,6 +326,7 @@ CREATE TABLE `answers` (
   `answer` varchar(255) NOT NULL,
   `question_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
+  `admin_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -336,11 +339,11 @@ CREATE TABLE `answers` (
 --
 ALTER TABLE `answers`
   ADD PRIMARY KEY (`id`);
-  -- ADD KEY `student_id` (`student_id`),
-  -- ADD KEY `question_id` (`question_id`);
 
 -- auto increment answers table
-ALTER TABLE `answers` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+COMMIT;
 
 --
 -- Constraints for dumped tables
@@ -363,7 +366,8 @@ ALTER TABLE `answers` CHANGE `id` `id` INT(11) NOT NULL AUTO_INCREMENT;
 CREATE TABLE `votes` (
   `id` int(11) NOT NULL,
   `answer_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL
+  `student_id` int(11) DEFAULT NULL,
+  `admin_id` int(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -375,8 +379,6 @@ CREATE TABLE `votes` (
 --
 ALTER TABLE `votes`
   ADD PRIMARY KEY (`id`);
-  -- ADD KEY `answer_id` (`answer_id`),
-  -- ADD KEY `student_id` (`student_id`);
 
 --
 -- Constraints for dumped tables
@@ -385,10 +387,11 @@ ALTER TABLE `votes`
 --
 -- Constraints for table `votes`
 -- 
--- ALTER TABLE `votes`
---   ADD CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`id`),
---   ADD CONSTRAINT `votes_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
--- COMMIT;
+-- AUTO_INCREMENT for table `votes`
+--
+ALTER TABLE `votes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
