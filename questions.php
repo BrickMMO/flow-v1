@@ -40,18 +40,28 @@ $start =($page-1)* $resultsPerPage;
 
 
 $query = 'SELECT 
-            q.id as id ,
-            q.question,
-            q.student_id,
-            q.created_at ,
-            CONCAT(s.first," ", s.last) AS name ,
-            COUNT(a.question_id) AS answers 
-            FROM questions q 
-            JOIN students s ON q.student_id = s.id 
-            LEFT JOIN answers AS a ON a.question_id = q.id 
-            GROUP BY q.id 
-            ORDER BY created_at DESC
+                q.id as id,
+                q.question,
+                q.student_id,
+                q.admin_id,
+                q.created_at,
+                CONCAT(s.first, " ", s.last) AS student_name,
+                COUNT(a.question_id) AS answers,
+                CONCAT(ad.first, " ", ad.last) AS admin_name
+            FROM 
+                questions q 
+            Left JOIN 
+                students s ON q.student_id = s.id 
+            LEFT JOIN 
+                answers a ON a.question_id = q.id 
+            LEFT JOIN 
+                admins ad ON q.admin_id = ad.id
+            GROUP BY 
+                q.id 
+            ORDER BY 
+                q.created_at DESC
             LIMIT '.$start.','.$resultsPerPage.'';
+
 $result = mysqli_query($connect, $query);
 
 
@@ -62,14 +72,33 @@ $result = mysqli_query($connect, $query);
 
 <hr>
 <div>
-    To Ask a Question <a href="questions_new.php">Click Here</a>
+    To Ask a Question
+    <?php
+        if(isset($_SESSION['student']['id']))
+        {
+            echo '<a href="questions_new.php">Click Here</a>';
+        }
+        elseif ($_SESSION['admin']['id']) {
+            echo '<a href="admin_questions_new.php">Click Here</a>';
+        }
+    ?>
+    
 
 </div>
 <?php while($task = mysqli_fetch_assoc($result)): ?>
     <div class="question-div" >
         <div class= "profile-image" ></div><?php //Not yet Working?>
         <h3>
-            <?=$task['name'] ?>
+            <?php 
+                if(isset($task['admin_id']))
+                {
+                    echo $task['admin_name'];
+                }
+                else
+                {
+                    echo $task['student_name'];
+                }
+                 ?>
         </h3>
         <div class="date" > 
             <?=$task['created_at'] ?>

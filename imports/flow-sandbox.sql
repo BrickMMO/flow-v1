@@ -305,6 +305,7 @@ CREATE TABLE `questions` (
   `id` int(11) NOT NULL,
   `question` varchar(255) NOT NULL,
   `student_id` int(11) DEFAULT NULL,
+  `admin_id` int(40) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -316,8 +317,7 @@ CREATE TABLE `questions` (
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_id` (`student_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Constraints for dumped tables
@@ -327,7 +327,7 @@ ALTER TABLE `questions`
 -- Constraints for table `questions`
 --
 ALTER TABLE `questions`
-  ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON UPDATE CASCADE;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 COMMIT;
 
 -- --------------------------------------------------------
@@ -341,6 +341,7 @@ CREATE TABLE `answers` (
   `answer` varchar(255) NOT NULL,
   `question_id` int(11) DEFAULT NULL,
   `student_id` int(11) DEFAULT NULL,
+  `admin_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -352,9 +353,7 @@ CREATE TABLE `answers` (
 -- Indexes for table `answers`
 --
 ALTER TABLE `answers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `student_id` (`student_id`),
-  ADD KEY `question_id` (`question_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Constraints for dumped tables
@@ -364,8 +363,7 @@ ALTER TABLE `answers`
 -- Constraints for table `answers`
 --
 ALTER TABLE `answers`
-  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `answers_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`) ON UPDATE CASCADE;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 -- --------------------------------------------------------
@@ -377,8 +375,10 @@ COMMIT;
 CREATE TABLE `votes` (
   `id` int(11) NOT NULL,
   `answer_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL
+  `student_id` int(11) DEFAULT NULL,
+  `admin_id` int(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 --
 -- Indexes for dumped tables
@@ -388,9 +388,7 @@ CREATE TABLE `votes` (
 -- Indexes for table `votes`
 --
 ALTER TABLE `votes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `answer_id` (`answer_id`),
-  ADD KEY `student_id` (`student_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Constraints for dumped tables
@@ -400,8 +398,7 @@ ALTER TABLE `votes`
 -- Constraints for table `votes`
 --
 ALTER TABLE `votes`
-  ADD CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`answer_id`) REFERENCES `answers` (`id`),
-  ADD CONSTRAINT `votes_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`);
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 
