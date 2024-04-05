@@ -18,6 +18,26 @@ table table {
     border: 1px solid lightgrey;
     padding: 20px;
     margin: auto;
+    background-color: #ffa900fc;
+    /* background-color: #ff9800; */
+}
+
+.home {
+    background-color: #2196F3; /* Orange */
+    padding: 20px;
+    border: 1px solid #f44336; /* Dark Red */
+    margin-bottom: 20px;
+    color: #000000; /* Black */
+}
+
+p{
+    color: #FFFF;
+}
+
+.para{
+    color: #FFFF;
+    border: 1px solid;
+    padding-left: 10px;
 }
 
 .error {
@@ -91,11 +111,15 @@ td {
 .center {
     text-align: center;
     padding: 5px 0;
+    background-color: #f44336;
 }
 
-.left {
+.credentials {
     text-align: left;
     padding: 5px 0;
+    background-color: #4CAF50;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .right {
@@ -106,6 +130,12 @@ td {
 label {
     display: block;
     margin: 10px 0;
+    background-color: #FFFF;
+    border: 1px solid #000;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right:10px;
 }
 
 input,
@@ -137,7 +167,7 @@ a:visited,
 a:active,
 a:hover {
     text-decoration: none;
-    color: #ff8e00;
+    color: black;
     white-space: nowrap;
 }
 
@@ -201,3 +231,18 @@ form textarea
     color: #eb062c !important;
     text-decoration: underline;
 }
+
+.login{
+   background-color: #FFFF; 
+   font-size: 15px;
+   border: 1px solid #000;
+}
+
+h3{
+    color: #FFFF;
+}
+
+.head{
+    text-align: center;
+}
+
