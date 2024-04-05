@@ -58,9 +58,11 @@ include('includes/header.php');
 
 ?>
 
-<h1>Flow Login</h1>
+<h1 class="head">Flow Login</h1>
 
 <?php check_message(); ?>
+
+<div class="home">
 
 <p>Welcome to the BrickMMO project management application.</p>
 
@@ -84,27 +86,29 @@ include('includes/header.php');
         <input type="password" name="password">
     </label>
 
-    <input type="submit" value="Login">
+    <input type="submit" class="login" value="Login">
 
 </form>
 
 <hr>
 
-<div class="left">
+</div>
+
+<div class="credentials">
 
     <h3>Admin Testing Account:</h3>
-    <p>Email: admin@email.com<br>Password: password</p>
+    <p class="para">Email: admin@email.com<br>Password: password</p>
 
     <h3>Student Testing Account:</h3>
-    <p>Email: student1@email.com<br>Password: password</p>
-    <p>Note: There are 10 student accounts, just change the number in the email.</p>
+    <p class="para">Email: student1@email.com<br>Password: password</p>
+    <p class="para">Note: There are 10 student accounts, just change the number in the email.</p>
 
 </div>
 
 
 <hr>
 
-<div class="left">
+<div class="bottom">
 
     <a href="forgot.php">Forgot Password</a> | <a href="register.php"> Register</a>
 
